@@ -1,0 +1,564 @@
+/* 移动端样式优化 */
+
+/* 移动端响应式断点 */
+@media (max-width: 768px) {
+    /* 固定导航栏优化 */
+    .fixed-nav-bar {
+        padding: 8px 15px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 10px;
+    }
+
+    /* 标题样式优化 */
+    .title {
+        font-size: 18px;
+        white-space: nowrap;
+    }
+
+    .subtitle {
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    /* 导航按钮优化 */
+    .nav-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-width: auto;
+        white-space: nowrap;
+    }
+
+    .zoom-btn {
+        padding: 6px 10px;
+        min-width: 35px;
+        font-size: 14px;
+    }
+
+    /* 缩放级别显示 */
+    .zoom-level {
+        font-size: 12px;
+        min-width: 50px;
+        padding: 6px 8px;
+    }
+
+    /* 搜索和筛选区域优化 */
+    .search-container {
+        flex: 1;
+        min-width: 150px;
+        max-width: 200px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .filter-select {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    /* 时间轴容器优化 */
+    .timeline-container {
+        padding: 10px;
+    }
+
+    /* 时间轴线条优化 */
+    .timeline-line {
+        width: 4px;
+        left: 25px;
+    }
+
+    /* 年份标记优化 */
+    .timeline-year-marker {
+        font-size: 14px;
+        padding: 6px 12px;
+        left: 25px;
+        transform: translateX(-50%);
+    }
+
+    /* 事件卡片优化 */
+    .timeline-event {
+        width: calc(100% - 50px);
+        margin-left: 50px;
+        margin-right: 0;
+        padding: 12px;
+    }
+
+    .timeline-event.left {
+        margin-left: 50px;
+        margin-right: 0;
+        right: auto;
+        left: 50px;
+        text-align: left;
+        transform-origin: left center;
+    }
+
+    .timeline-event.right {
+        margin-left: 50px;
+        margin-right: 0;
+        left: 50px;
+        text-align: left;
+        transform-origin: left center;
+    }
+
+    /* 事件标记点位置 */
+    .timeline-event.left .event-marker,
+    .timeline-event.right .event-marker {
+        left: -12px;
+        right: auto;
+    }
+
+    /* 事件卡片内容优化 */
+    .event-card {
+        padding: 15px;
+        font-size: 14px;
+    }
+
+    .event-title {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .event-description {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .event-category {
+        font-size: 12px;
+        padding: 4px 8px;
+        margin-bottom: 8px;
+    }
+
+    /* 按钮优化 */
+    .action-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+        width: 100%;
+        min-height: 40px;
+    }
+
+    /* 模态框优化 */
+    .character-modal,
+    .login-modal,
+    .register-modal,
+    .account-settings-modal {
+        padding: 20px;
+    }
+
+    .modal-content {
+        padding: 15px;
+        max-width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    /* 表单优化 */
+    .form-group input {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .submit-btn,
+    .register-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        min-height: 44px;
+    }
+
+    /* 用户菜单优化 */
+    .user-menu {
+        right: 10px;
+        width: 180px;
+        max-width: 90vw;
+    }
+
+    .menu-item {
+        padding: 10px 12px;
+    }
+
+    /* 收藏列表优化 */
+    .favorites-list {
+        padding: 10px 0;
+    }
+
+    .favorite-item {
+        padding: 12px;
+        margin-bottom: 8px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .favorite-content {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .favorite-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    /* 人物档案优化 */
+    .character-info {
+        padding: 15px;
+    }
+
+    .character-info h2 {
+        font-size: 24px;
+    }
+
+    .character-title {
+        font-size: 16px;
+    }
+
+    .character-bio {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    /* 头像选择优化 */
+    .avatar-selection {
+        gap: 10px;
+    }
+
+    .avatar-option {
+        flex: 1;
+        min-width: 60px;
+    }
+
+    .avatar-preview {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    /* 无结果提示优化 */
+    .no-results {
+        padding: 30px 40px;
+    }
+
+    .no-results p {
+        font-size: 16px;
+    }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 480px) {
+    /* 导航栏优化 */
+    .fixed-nav-bar {
+        padding: 6px 10px;
+        gap: 8px;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+
+    .subtitle {
+        font-size: 11px;
+    }
+
+    .nav-btn {
+        padding: 5px 8px;
+        font-size: 11px;
+        min-width: auto;
+    }
+
+    .zoom-btn {
+        padding: 5px 8px;
+        min-width: 30px;
+        font-size: 12px;
+    }
+
+    .zoom-level {
+        font-size: 11px;
+        min-width: 45px;
+        padding: 5px 6px;
+    }
+
+    /* 搜索框优化 */
+    .search-container {
+        min-width: 120px;
+        max-width: 150px;
+    }
+
+    .search-input {
+        font-size: 13px;
+        padding: 6px;
+    }
+
+    .filter-select {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    /* 时间轴优化 */
+    .timeline-container {
+        padding: 8px;
+    }
+
+    .timeline-line {
+        width: 3px;
+        left: 20px;
+    }
+
+    .timeline-year-marker {
+        font-size: 12px;
+        padding: 5px 10px;
+        left: 20px;
+    }
+
+    .timeline-event {
+        width: calc(100% - 40px);
+        margin-left: 40px;
+        padding: 10px;
+    }
+
+    .timeline-event.left,
+    .timeline-event.right {
+        margin-left: 40px;
+        left: 40px;
+    }
+
+    .timeline-event.left .event-marker,
+    .timeline-event.right .event-marker {
+        left: -10px;
+    }
+
+    /* 事件卡片优化 */
+    .event-card {
+        padding: 12px;
+    }
+
+    .event-title {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .event-description {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .event-category {
+        font-size: 11px;
+        padding: 3px 6px;
+        margin-bottom: 6px;
+    }
+
+    .event-tag {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+
+    /* 按钮优化 */
+    .action-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    /* 模态框优化 */
+    .modal-content {
+        padding: 12px;
+        max-width: 95%;
+        margin: 10px;
+    }
+
+    .character-info h2 {
+        font-size: 20px;
+    }
+
+    .character-title {
+        font-size: 14px;
+    }
+
+    .character-bio {
+        font-size: 12px;
+    }
+
+    /* 表单优化 */
+    .form-group input {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .submit-btn,
+    .register-btn {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    /* 头像选择优化 */
+    .avatar-selection {
+        gap: 8px;
+    }
+
+    .avatar-option {
+        min-width: 50px;
+    }
+
+    .avatar-preview {
+        width: 45px;
+        height: 45px;
+        font-size: 22px;
+    }
+
+    /* 收藏列表优化 */
+    .favorite-item {
+        padding: 10px;
+    }
+
+    .character-name {
+        font-size: 14px;
+    }
+
+    .character-dates {
+        font-size: 12px;
+    }
+
+    /* 无结果提示优化 */
+    .no-results {
+        padding: 20px 30px;
+    }
+
+    .no-results p {
+        font-size: 14px;
+    }
+}
+
+/* 平板设备优化 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .title {
+        font-size: 22px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    .timeline-event {
+        width: 380px;
+    }
+
+    .event-card {
+        padding: 18px;
+    }
+
+    .event-title {
+        font-size: 17px;
+    }
+
+    .event-description {
+        font-size: 14px;
+    }
+
+    .modal-content {
+        max-width: 550px;
+    }
+}
+
+/* 大屏幕优化 */
+@media (min-width: 1400px) {
+    .title {
+        font-size: 28px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .timeline-event {
+        width: 450px;
+    }
+
+    .event-card {
+        padding: 25px;
+    }
+
+    .event-title {
+        font-size: 20px;
+    }
+
+    .event-description {
+        font-size: 15px;
+    }
+
+    .modal-content {
+        max-width: 700px;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    .nav-btn,
+    .action-btn,
+    .form-btn {
+        min-height: 44px;
+    }
+
+    .timeline-event {
+        min-height: 80px;
+    }
+}
+
+/* 横屏优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+    .fixed-nav-bar {
+        padding: 5px 10px;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+
+    .timeline-event {
+        margin-left: 30px;
+    }
+}
+
+/* 性能优化 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* 暗色模式支持 */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a2e;
+    }
+
+    .fixed-nav-bar {
+        background: linear-gradient(135deg, #2d3748, #1a1a2e);
+    }
+
+    .nav-btn {
+        background-color: #2d3748;
+        color: #e2e8f0;
+        border-color: #4a5568;
+    }
+
+    .event-card {
+        background-color: #2d3748;
+        color: #e2e8f0;
+    }
+}

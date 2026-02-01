@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>历史年表</title>
+    <link rel="stylesheet" href="timeline.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="preload" href="data/events.js" as="script">
+    <link rel="preload" href="data/characters.js" as="script">
+    <link rel="preload" href="timeline-optimized.js" as="script">
+</head>
+<body>
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 加载遮罩层：页面加载时显示 -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">正在加载...</div>
+        </div>
+
+        <!-- Toast通知容器：显示成功/错误消息 -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- 固定顶部栏：包含标题、副标题和控制按钮 -->
+        <nav class="fixed-nav-bar">
+            <!-- 标题区域：居中显示 -->
+            <div class="header">
+                <h1 class="title">历史年表</h1>
+                <p class="subtitle">探索历史的长河</p>
+            </div>
+            <!-- 控制按钮区域 -->
+            <div class="nav-controls">
+                <!-- 事件类型筛选器：按政治、文化、科技、军事筛选 -->
+                <select class="filter-select" id="categoryFilter">
+                    <option value="all">全部类型</option>
+                    <option value="political">政治</option>
+                    <option value="cultural">文化</option>
+                    <option value="technology">科技</option>
+                    <option value="military">军事</option>
+                </select>
+                <!-- 人物分类筛选器：按政治家、军事家、科学家、文学家、哲学家筛选 -->
+                <select class="filter-select" id="characterCategoryFilter">
+                    <option value="all">全部人物</option>
+                    <option value="political">政治家</option>
+                    <option value="military">军事家</option>
+                    <option value="scientist">科学家</option>
+                    <option value="literary">文学家</option>
+                    <option value="philosopher">哲学家</option>
+                </select>
+                <!-- 搜索输入框容器：始终显示 -->
+                <div class="search-container" id="searchContainer">
+                    <!-- 搜索输入框：搜索事件或人物 -->
+                    <input type="text" class="search-input" id="searchInput" placeholder="搜索事件或人物...">
+                    <!-- 搜索图标按钮：点击搜索 -->
+                    <button class="search-btn" id="searchBtn">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 放大镜镜面：白色填充，灰色边框 -->
+                            <circle cx="11" cy="11" r="8" fill="white" stroke="#999" stroke-width="2"/>
+                            <!-- 放大镜柄部：白色填充，灰色边框 -->
+                            <line x1="17" y1="17" x2="21" y2="21" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- 缩小按钮：缩小时间轴显示 -->
+                <button class="nav-btn zoom-btn" id="zoomOutBtn">-</button>
+                <!-- 缩放级别显示：显示当前缩放比例 -->
+                <span class="zoom-level" id="zoomLevel">100%</span>
+                <!-- 放大按钮：放大时间轴显示 -->
+                <button class="nav-btn zoom-btn" id="zoomInBtn">+</button>
+            </div>
+        </nav>
+
+        <!-- 主内容区：时间轴容器 -->
+        <main class="main-content">
+            <!-- 搜索结果为空提示：当搜索不到内容时显示 -->
+            <div class="no-results" id="noResults">
+                <p>抱歉，没有找到相关结果。</p>
+                <p id="countdownText">5秒后自动返回</p>
+            </div>
+            <!-- 时间轴容器：可横向滚动 -->
+            <div class="timeline-container">
+                <!-- 时间轴：包含所有事件卡片 -->
+                <div class="timeline" id="timeline">
+                    <!-- 时间轴线：中央的横向线条 -->
+                    <div class="timeline-line"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 人物档案弹窗：显示人物详细信息 -->
+        <div class="character-modal" id="characterModal">
+            <!-- 遮罩层：半透明背景，点击可关闭弹窗 -->
+            <div class="modal-overlay" id="modalOverlay"></div>
+            <!-- 弹窗内容：人物信息 -->
+            <div class="modal-content">
+                <!-- 关闭按钮：关闭人物档案弹窗 -->
+                <button class="modal-close" id="modalClose">&times;</button>
+                <!-- 人物信息容器：动态填充人物数据 -->
+                <div class="character-info" id="characterInfo">
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- 加载历史事件数据 -->
+    <script src="data/events.js"></script>
+    <!-- 加载人物档案数据 -->
+    <script src="data/characters.js"></script>
+    <!-- 加载主逻辑脚本（优化版） -->
+    <script src="timeline-optimized.js"></script>
+
+    
+    <!-- Service Worker 注册脚本：实现离线支持 -->
+    <script>
+        // 检查浏览器是否支持 Service Worker
+        // 注意：service-worker.js 文件不存在，暂时禁用
+        /*
+        if ('serviceWorker' in navigator) {
+            // 页面加载完成后注册 Service Worker
+            window.addEventListener('load', () => {
+                // 注册 service-worker.js 文件
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => {
+                        // 注册成功，输出日志
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(error => {
+                        // 注册失败，输出错误信息
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+        */
+    </script>
+</body>
+</html>
