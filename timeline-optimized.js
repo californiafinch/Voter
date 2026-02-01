@@ -48,6 +48,7 @@ const TimelineApp = {
         this.domCache = {
             timeline: document.getElementById('timeline'),
             searchInput: document.getElementById('searchInput'),
+            searchScope: document.getElementById('searchScope'),
             categoryFilter: document.getElementById('categoryFilter'),
             characterCategoryFilter: document.getElementById('characterCategoryFilter'),
             zoomLevel: document.getElementById('zoomLevel'),
@@ -56,7 +57,8 @@ const TimelineApp = {
             noResults: document.getElementById('noResults'),
             countdownText: document.getElementById('countdownText'),
             timelineContainer: document.querySelector('.timeline-container'),
-            navBar: document.querySelector('.fixed-nav-bar')
+            navBar: document.querySelector('.fixed-nav-bar'),
+            searchBtn: document.getElementById('searchBtn')
         };
 
         console.log('DOM 元素缓存完成:', Object.keys(this.domCache));
@@ -487,6 +489,9 @@ const TimelineApp = {
     
     clearSearch() {
         this.domCache.searchInput.value = '';
+        if (this.domCache.searchScope) {
+            this.domCache.searchScope.value = 'all';
+        }
         this.domCache.categoryFilter.value = 'all';
         this.domCache.characterCategoryFilter.value = 'all';
         this.renderTimeline();
@@ -628,6 +633,7 @@ const TimelineApp = {
         const categoryFilter = this.domCache.categoryFilter.value;
         const characterCategoryFilter = this.domCache.characterCategoryFilter.value;
         const searchInput = this.domCache.searchInput.value.toLowerCase();
+        const searchScope = this.domCache.searchScope?.value || 'all';
         
         return this.events.filter(event => {
             const matchesCategory = categoryFilter === 'all' || event.category === categoryFilter;
@@ -640,12 +646,20 @@ const TimelineApp = {
                 });
             }
             
-            const matchesSearch = !searchInput || 
-                event.title.toLowerCase().includes(searchInput) ||
-                event.description.toLowerCase().includes(searchInput) ||
-                (event.characters && event.characters.some(char => 
+            const matchesSearch = !searchInput || {
+                'all': event.title.toLowerCase().includes(searchInput) ||
+                    event.description.toLowerCase().includes(searchInput) ||
+                    (event.tags && event.tags.some(tag => tag.toLowerCase().includes(searchInput))) ||
+                    (event.characters && event.characters.some(char => 
+                        char.name.toLowerCase().includes(searchInput)
+                    )),
+                'events': event.title.toLowerCase().includes(searchInput) ||
+                    event.description.toLowerCase().includes(searchInput),
+                'characters': event.characters && event.characters.some(char => 
                     char.name.toLowerCase().includes(searchInput)
-                ));
+                ),
+                'tags': event.tags && event.tags.some(tag => tag.toLowerCase().includes(searchInput))
+            }[searchScope];
             return matchesCategory && matchesCharacterCategory && matchesSearch;
         });
     },
@@ -662,21 +676,38 @@ const TimelineApp = {
     },
     
     setupEventListeners() {
-        document.getElementById('categoryFilter').addEventListener('change', () => this.renderTimeline());
-        document.getElementById('characterCategoryFilter').addEventListener('change', () => this.renderTimeline());
-        
-        document.getElementById('searchBtn').addEventListener('click', () => this.renderTimeline());
-        document.getElementById('searchInput').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                this.renderTimeline();
-            }
-        });
-        
-        document.getElementById('zoomInBtn').addEventListener('click', () => this.zoomIn());
-        document.getElementById('zoomOutBtn').addEventListener('click', () => this.zoomOut());
-        
-        document.getElementById('modalClose').addEventListener('click', () => this.hideCharacterModal());
-        document.getElementById('modalOverlay').addEventListener('click', () => this.hideCharacterModal());
+        // 使用缓存的元素并添加 null 检查
+        if (this.domCache.categoryFilter) {
+            this.domCache.categoryFilter.addEventListener('change', () => this.renderTimeline());
+        }
+        if (this.domCache.characterCategoryFilter) {
+            this.domCache.characterCategoryFilter.addEventListener('change', () => this.renderTimeline());
+        }
+        if (this.domCache.searchScope) {
+            this.domCache.searchScope.addEventListener('change', () => this.renderTimeline());
+        }
+        if (this.domCache.searchBtn) {
+            this.domCache.searchBtn.addEventListener('click', () => this.renderTimeline());
+        }
+        if (this.domCache.searchInput) {
+            this.domCache.searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    this.renderTimeline();
+                }
+            });
+        }
+        if (document.getElementById('zoomInBtn')) {
+            document.getElementById('zoomInBtn').addEventListener('click', () => this.zoomIn());
+        }
+        if (document.getElementById('zoomOutBtn')) {
+            document.getElementById('zoomOutBtn').addEventListener('click', () => this.zoomOut());
+        }
+        if (document.getElementById('modalClose')) {
+            document.getElementById('modalClose').addEventListener('click', () => this.hideCharacterModal());
+        }
+        if (document.getElementById('modalOverlay')) {
+            document.getElementById('modalOverlay').addEventListener('click', () => this.hideCharacterModal());
+        }
         
         document.addEventListener('click', (e) => {
             const characterLink = e.target.closest('.character-link');
