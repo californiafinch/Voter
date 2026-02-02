@@ -33,7 +33,7 @@
             <div class="nav-controls">
                 <!-- 事件类型筛选器：按政治、文化、科技、军事筛选 -->
                 <select class="filter-select" id="categoryFilter">
-                    <option value="all">全部类型</option>
+                    <option value="all" selected>事件</option>
                     <option value="political">政治</option>
                     <option value="cultural">文化</option>
                     <option value="technology">科技</option>
@@ -41,17 +41,39 @@
                 </select>
                 <!-- 人物分类筛选器：按政治家、军事家、科学家、文学家、哲学家筛选 -->
                 <select class="filter-select" id="characterCategoryFilter">
-                    <option value="all">全部人物</option>
+                    <option value="all" selected class="default-option">人物</option>
                     <option value="political">政治家</option>
                     <option value="military">军事家</option>
                     <option value="scientist">科学家</option>
                     <option value="literary">文学家</option>
                     <option value="philosopher">哲学家</option>
                 </select>
+                <!-- 地区分类筛选器：按地区筛选事件 -->
+                <select class="filter-select" id="regionFilter">
+                    <option value="all" selected>地区</option>
+                    <option value="华夏区">华夏区</option>
+                    <option value="亚洲区">亚洲区</option>
+                    <option value="欧洲区">欧洲区</option>
+                </select>
+                <!-- 时期分类筛选器：按时期筛选事件 -->
+                <select class="filter-select" id="periodFilter">
+                    <option value="all" selected>时期</option>
+                    <option value="中古">中古</option>
+                    <option value="近代">近代</option>
+                    <option value="现代">现代</option>
+                </select>
                 <!-- 搜索输入框容器：始终显示 -->
                 <div class="search-container" id="searchContainer">
+                    <!-- 搜索范围选择器 -->
+                    <select class="filter-select search-scope" id="searchScope">
+                        <option value="all" selected>全部</option>
+                        <option value="events">事件</option>
+                        <option value="characters">人物</option>
+                        <option value="region">地区</option>
+                        <option value="period">时期</option>
+                    </select>
                     <!-- 搜索输入框：搜索事件或人物 -->
-                    <input type="text" class="search-input" id="searchInput" placeholder="搜索事件或人物...">
+                    <input type="text" class="search-input" id="searchInput" placeholder="搜索内容...">
                     <!-- 搜索图标按钮：点击搜索 -->
                     <button class="search-btn" id="searchBtn">
                         <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
