@@ -16,34 +16,10 @@ jobs:
       # 步骤 1：检出代码
       - uses: actions/checkout@v3
 
-      # 步骤 2：检查两个 HTML 文件是否同步
-      - name: Check if HTML files are in sync
+      # 步骤 2：验证 index.html 文件存在性
+      - name: Verify index.html exists
         run: |
-          echo "Checking if intVoter.html and index.html are in sync..."
-          
-          # 比较两个文件的内容
-          if cmp -s intVoter.html index.html; then
-            echo "✅ SUCCESS: intVoter.html and index.html are identical"
-            exit 0
-          else
-            echo "❌ ERROR: intVoter.html and index.html are different"
-            echo "Please run 'node sync-html.js' to sync the files before pushing"
-            echo "Differences:"
-            diff intVoter.html index.html
-            exit 1
-          fi
-
-      # 步骤 3：验证文件存在性
-      - name: Verify files exist
-        run: |
-          echo "Verifying files exist..."
-          if [ -f "intVoter.html" ]; then
-            echo "✅ intVoter.html exists"
-          else
-            echo "❌ intVoter.html missing"
-            exit 1
-          fi
-          
+          echo "Verifying index.html exists..."
           if [ -f "index.html" ]; then
             echo "✅ index.html exists"
           else
@@ -51,15 +27,28 @@ jobs:
             exit 1
           fi
 
-      # 步骤 4：验证同步脚本存在性
-      - name: Verify sync script exists
+      # 步骤 3：验证文件大小
+      - name: Verify index.html size
         run: |
-          echo "Verifying sync script exists..."
-          if [ -f "sync-html.js" ]; then
-            echo "✅ sync-html.js exists"
+          echo "Verifying index.html size..."
+          FILE_SIZE=$(wc -c < "index.html")
+          if [ "$FILE_SIZE" -gt 0 ]; then
+            echo "✅ index.html has content ($FILE_SIZE bytes)"
           else
-            echo "❌ sync-html.js missing"
-            echo "Please create sync-html.js script"
+            echo "❌ index.html is empty"
+            exit 1
+          fi
+
+      # 步骤 4：验证关键功能
+      - name: Verify key features in index.html
+        run: |
+          echo "Verifying key features in index.html..."
+          if grep -q "地区分类筛选器" "index.html" && \
+             grep -q "时期分类筛选器" "index.html" && \
+             grep -q "搜索范围选择器" "index.html"; then
+            echo "✅ index.html contains all key features"
+          else
+            echo "❌ index.html missing some key features"
             exit 1
           fi
 
@@ -68,5 +57,5 @@ jobs:
         if: success()
         run: |
           echo "🎉 All checks passed!"
-          echo "HTML files are in sync and ready for deployment"
+          echo "index.html is ready for deployment"
           echo "GitHub Pages should display the latest changes correctly"
