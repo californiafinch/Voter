@@ -181,6 +181,38 @@ body {
     color: white;
 }
 
+/* 地区分类选项颜色 */
+#regionFilter option[value="华夏区"] {
+    background-color: #ff9800; /* 华夏区：橙色 */
+    color: white;
+}
+
+#regionFilter option[value="亚洲区"] {
+    background-color: #4caf50; /* 亚洲区：绿色 */
+    color: white;
+}
+
+#regionFilter option[value="欧洲区"] {
+    background-color: #2196f3; /* 欧洲区：蓝色 */
+    color: white;
+}
+
+/* 时期分类选项颜色 */
+#periodFilter option[value="中古"] {
+    background-color: #9c27b0; /* 中古：紫色 */
+    color: white;
+}
+
+#periodFilter option[value="近代"] {
+    background-color: #f44336; /* 近代：红色 */
+    color: white;
+}
+
+#periodFilter option[value="现代"] {
+    background-color: #00bcd4; /* 现代：青色 */
+    color: white;
+}
+
 /* 搜索范围选择器样式 */
 .search-scope {
     margin-right: 5px;

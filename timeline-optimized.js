@@ -51,6 +51,8 @@ const TimelineApp = {
             searchScope: document.getElementById('searchScope'),
             categoryFilter: document.getElementById('categoryFilter'),
             characterCategoryFilter: document.getElementById('characterCategoryFilter'),
+            regionFilter: document.getElementById('regionFilter'),
+            periodFilter: document.getElementById('periodFilter'),
             zoomLevel: document.getElementById('zoomLevel'),
             characterModal: document.getElementById('characterModal'),
             characterInfo: document.getElementById('characterInfo'),
@@ -494,6 +496,12 @@ const TimelineApp = {
         }
         this.domCache.categoryFilter.value = 'all';
         this.domCache.characterCategoryFilter.value = 'all';
+        if (this.domCache.regionFilter) {
+            this.domCache.regionFilter.value = 'all';
+        }
+        if (this.domCache.periodFilter) {
+            this.domCache.periodFilter.value = 'all';
+        }
         this.renderTimeline();
     },
     
@@ -632,6 +640,8 @@ const TimelineApp = {
     filterEvents() {
         const categoryFilter = this.domCache.categoryFilter.value;
         const characterCategoryFilter = this.domCache.characterCategoryFilter.value;
+        const regionFilter = this.domCache.regionFilter?.value || 'all';
+        const periodFilter = this.domCache.periodFilter?.value || 'all';
         const searchInput = this.domCache.searchInput.value.toLowerCase();
         const searchScope = this.domCache.searchScope?.value || 'all';
         
@@ -646,6 +656,12 @@ const TimelineApp = {
                 });
             }
             
+            // 地区筛选：从事件标签中筛选包含地区信息的事件
+            const matchesRegion = regionFilter === 'all' || (event.tags && event.tags.some(tag => tag.includes(regionFilter)));
+            
+            // 时期筛选：从事件标签中筛选包含时期信息的事件
+            const matchesPeriod = periodFilter === 'all' || (event.tags && event.tags.some(tag => tag.includes(periodFilter)));
+            
             const matchesSearch = !searchInput || {
                 'all': event.title.toLowerCase().includes(searchInput) ||
                     event.description.toLowerCase().includes(searchInput) ||
@@ -658,9 +674,10 @@ const TimelineApp = {
                 'characters': event.characters && event.characters.some(char => 
                     char.name.toLowerCase().includes(searchInput)
                 ),
-                'tags': event.tags && event.tags.some(tag => tag.toLowerCase().includes(searchInput))
+                'region': event.tags && event.tags.some(tag => tag.toLowerCase().includes(searchInput)),
+                'period': event.tags && event.tags.some(tag => tag.toLowerCase().includes(searchInput))
             }[searchScope];
-            return matchesCategory && matchesCharacterCategory && matchesSearch;
+            return matchesCategory && matchesCharacterCategory && matchesRegion && matchesPeriod && matchesSearch;
         });
     },
     
@@ -682,6 +699,12 @@ const TimelineApp = {
         }
         if (this.domCache.characterCategoryFilter) {
             this.domCache.characterCategoryFilter.addEventListener('change', () => this.renderTimeline());
+        }
+        if (this.domCache.regionFilter) {
+            this.domCache.regionFilter.addEventListener('change', () => this.renderTimeline());
+        }
+        if (this.domCache.periodFilter) {
+            this.domCache.periodFilter.addEventListener('change', () => this.renderTimeline());
         }
         if (this.domCache.searchScope) {
             this.domCache.searchScope.addEventListener('change', () => this.renderTimeline());
