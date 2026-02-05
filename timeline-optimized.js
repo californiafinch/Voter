@@ -60,7 +60,8 @@ const TimelineApp = {
             countdownText: document.getElementById('countdownText'),
             timelineContainer: document.querySelector('.timeline-container'),
             navBar: document.querySelector('.fixed-nav-bar'),
-            searchBtn: document.getElementById('searchBtn')
+            searchBtn: document.getElementById('searchBtn'),
+            resetBtn: document.getElementById('resetBtn')
         };
 
         console.log('DOM 元素缓存完成:', Object.keys(this.domCache));
@@ -718,6 +719,9 @@ const TimelineApp = {
                     this.renderTimeline();
                 }
             });
+        }
+        if (this.domCache.resetBtn) {
+            this.domCache.resetBtn.addEventListener('click', () => this.clearSearch());
         }
         if (document.getElementById('zoomInBtn')) {
             document.getElementById('zoomInBtn').addEventListener('click', () => this.zoomIn());
