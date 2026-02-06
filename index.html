@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <!-- 文档类型声明 -->
     <meta charset="UTF-8">
+    <!-- 视口设置：确保在移动设备上正确显示 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 页面标题 -->
     <title>选民行会</title>
+    <!-- 加载主样式文件 -->
     <link rel="stylesheet" href="timeline.css">
+    <!-- 加载移动端样式文件 -->
     <link rel="stylesheet" href="mobile.css">
+    <!-- 预加载事件数据文件 -->
     <link rel="preload" href="data/events.js" as="script">
+    <!-- 预加载人物数据文件 -->
     <link rel="preload" href="data/characters.js" as="script">
+    <!-- 预加载主逻辑脚本 -->
     <link rel="preload" href="timeline-optimized.js" as="script">
 </head>
 <body>
-    <!-- 主容器 -->
+    <!-- 主容器：包含页面所有内容 -->
     <div class="container">
         <!-- 加载遮罩层：页面加载时显示 -->
         <div class="loading-overlay" id="loadingOverlay">
@@ -29,41 +37,51 @@
                 <h1 class="title">选民行会</h1>
                 <p class="subtitle">理想国</p>
             </div>
-            <!-- 控制按钮区域 -->
+            <!-- 控制按钮区域：包含筛选器、搜索框和缩放按钮 -->
             <div class="nav-controls">
                 <!-- 重置按钮：清除所有筛选条件 -->
                 <button class="nav-btn reset-btn" id="resetBtn">重置</button>
-                <!-- 事件类型筛选器：按政治、文化、科技、军事筛选 -->
+                
+                <!-- 事件类型筛选器：按军事、外交、组织、人物筛选 -->
                 <select class="filter-select" id="categoryFilter">
                     <option value="all" selected>事件</option>
-                    <option value="political">政治</option>
-                    <option value="cultural">文化</option>
-                    <option value="technology">科技</option>
                     <option value="military">军事</option>
+                    <option value="diplomacy">外交</option>
+                    <option value="organize">组织</option>
+                    <option value="personage">人物</option>
                 </select>
-                <!-- 人物分类筛选器：按政治家、军事家、科学家、文学家、哲学家筛选 -->
+                
+                <!-- 人物分类筛选器：按能量派、投影派、干涉派、定位派筛选 -->
                 <select class="filter-select" id="characterCategoryFilter">
                     <option value="all" selected class="default-option">人物</option>
-                    <option value="political">政治家</option>
-                    <option value="military">军事家</option>
-                    <option value="scientist">科学家</option>
-                    <option value="literary">文学家</option>
-                    <option value="philosopher">哲学家</option>
+                    <option value="energy">能量派</option>
+                    <option value="projective">投影派</option>
+                    <option value="intervene">干涉派</option>
+                    <option value="orientate">定位派</option>
                 </select>
-                <!-- 地区分类筛选器：按地区筛选事件 -->
+                
+                <!-- 地区分类筛选器：按华夏区、亚洲区、欧洲区、北美区、拉美区、非洲区筛选 -->
                 <select class="filter-select" id="regionFilter">
                     <option value="all" selected>地区</option>
                     <option value="华夏区">华夏区</option>
                     <option value="亚洲区">亚洲区</option>
                     <option value="欧洲区">欧洲区</option>
+                    <option value="北美区">北美区</option>
+                    <option value="拉美区">拉美区</option>
+                    <option value="非洲区">非洲区</option>
                 </select>
-                <!-- 时期分类筛选器：按时期筛选事件 -->
+                
+                <!-- 时期分类筛选器：按远古、上古、中古、近代、现代、当代筛选 -->
                 <select class="filter-select" id="periodFilter">
                     <option value="all" selected>时期</option>
+                    <option value="远古">远古</option>
+                    <option value="上古">上古</option>
                     <option value="中古">中古</option>
                     <option value="近代">近代</option>
                     <option value="现代">现代</option>
+                    <option value="当代">当代</option>
                 </select>
+                
                 <!-- 搜索输入框容器：始终显示 -->
                 <div class="search-container" id="searchContainer">
                     <!-- 搜索范围选择器 -->
@@ -86,6 +104,7 @@
                         </svg>
                     </button>
                 </div>
+                
                 <!-- 缩小按钮：缩小时间轴显示 -->
                 <button class="nav-btn zoom-btn" id="zoomOutBtn">-</button>
                 <!-- 缩放级别显示：显示当前缩放比例 -->
@@ -125,8 +144,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <!-- 加载历史事件数据 -->
@@ -136,7 +153,6 @@
     <!-- 加载主逻辑脚本（优化版） -->
     <script src="timeline-optimized.js"></script>
 
-    
     <!-- Service Worker 注册脚本：实现离线支持 -->
     <script>
         // 检查浏览器是否支持 Service Worker

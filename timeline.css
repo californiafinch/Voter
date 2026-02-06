@@ -1,67 +1,94 @@
-/* 全局样式重置：清除默认边距和内边距 */
+/**
+ * 全局样式重置
+ * 清除默认边距和内边距，设置盒模型为border-box
+ * 统一滚动条样式
+ */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    scrollbar-width: thin;
-    scrollbar-color: #4a90e2 #f1f1f1;
+    box-sizing: border-box; /* 使用border-box盒模型，使元素宽度包括边框和内边距 */
+    scrollbar-width: thin; /* 滚动条宽度设置为细 */
+    scrollbar-color: #4a90e2 #f1f1f1; /* 滚动条颜色：蓝色滑块，浅灰色轨道 */
 }
 
-/* 主体样式：设置背景色、字体和最小高度 */
+/**
+ * 主体样式
+ * 设置页面背景色、字体和最小高度
+ */
 body {
     background-color: #e6f2ff; /* 浅蓝色背景 */
     font-family: sans-serif; /* 无衬线字体 */
-    min-height: 100vh; /* 最小高度为视口高度 */
-    overflow-x: hidden; /* 隐藏横向滚动条 */
+    min-height: 100vh; /* 最小高度为视口高度，确保页面占满整个屏幕 */
+    overflow-x: hidden; /* 隐藏横向滚动条，防止页面出现水平滚动 */
 }
 
-/* 主容器：使用弹性布局垂直排列 */
+/**
+ * 主容器样式
+ * 使用弹性布局垂直排列子元素
+ */
 .container {
     display: flex; /* 弹性布局 */
     flex-direction: column; /* 垂直排列子元素 */
     min-height: 100vh; /* 最小高度为视口高度 */
 }
 
-/* 固定顶部栏：固定在页面最顶部，包含标题和控制按钮 */
+/**
+ * 固定顶部栏样式
+ * 固定在页面最顶部，包含标题和控制按钮
+ */
 .fixed-nav-bar {
-    position: fixed;
+    position: fixed; /* 固定定位，始终在页面顶部 */
     top: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(135deg, #4a90e2, #9013fe);
-    color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
+    background: linear-gradient(135deg, #4a90e2, #9013fe); /* 蓝色到紫色的渐变背景 */
+    color: white; /* 文字颜色为白色 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 底部阴影，增加层次感 */
+    z-index: 1000; /* 层级设置为1000，确保在其他元素之上 */
+    padding: 10px 20px; /* 内边距 */
+    display: flex; /* 弹性布局 */
+    align-items: flex-start; /* 顶部对齐，允许换行 */
+    justify-content: space-between; /* 两端对齐，标题在左，控制按钮在右 */
+    gap: 20px; /* 子元素间距 */
+    flex-wrap: wrap; /* 允许换行，适应小屏幕 */
+    min-height: 80px; /* 最小高度，确保所有筛选器都能显示 */
 }
 
+/**
+ * 固定顶部栏隐藏状态
+ * 当添加hidden类时，隐藏顶部栏
+ */
 .fixed-nav-bar.hidden {
-    display: none;
+    display: none; /* 隐藏顶部栏 */
 }
 
-/* 头部样式：标题和副标题居中显示 */
+/**
+ * 头部样式
+ * 标题和副标题居中显示
+ */
 .header {
     display: flex; /* 弹性布局 */
-    flex-direction: column; /* 垂直排列 */
+    flex-direction: column; /* 垂直排列子元素 */
     align-items: center; /* 水平居中 */
     text-align: center; /* 文本居中 */
     padding: 0; /* 移除内边距 */
 }
 
-/* 控制按钮区域：包含所有控制按钮 */
+/**
+ * 控制按钮区域样式
+ * 包含所有控制按钮，如筛选器、搜索框和缩放按钮
+ */
 .nav-controls {
     display: flex; /* 弹性布局 */
     align-items: center; /* 垂直居中 */
     gap: 10px; /* 子元素间距 */
-    flex-wrap: wrap; /* 允许换行 */
+    flex-wrap: wrap; /* 允许换行，适应小屏幕 */
 }
 
-/* 标题样式：白色文字 */
+/**
+ * 标题样式
+ * 白色文字，楷体字体
+ */
 .title {
     font-family: 楷体, 'KaiTi', serif; /* 楷体字体 */
     font-size: 24px; /* 字体大小 */
@@ -71,25 +98,31 @@ body {
     color: white; /* 白色文字 */
 }
 
-/* 副标题样式：白色文字 */
+/**
+ * 副标题样式
+ * 白色文字，等宽字体
+ */
 .subtitle {
     font-family: 'Consolas', monospace; /* 等宽字体 */
     font-size: 14px; /* 字体大小 */
-    opacity: 0.9; /* 透明度 */
+    opacity: 0.9; /* 透明度，使文字稍微淡一些 */
     text-shadow: none; /* 移除文字阴影 */
     color: white; /* 白色文字 */
 }
 
-/* 导航按钮样式：蓝色边框和悬停效果 */
+/**
+ * 导航按钮样式
+ * 蓝色边框和悬停效果
+ */
 .nav-btn {
     padding: 5px 16px; /* 内边距，与选择框一致 */
     border: 2px solid #4a90e2; /* 蓝色边框 */
     background-color: white; /* 白色背景 */
     color: #4a90e2; /* 蓝色文字 */
     border-radius: 5px; /* 圆角 */
-    cursor: pointer; /* 鼠标指针 */
+    cursor: pointer; /* 鼠标指针变为手形 */
     font-size: 14px; /* 字体大小 */
-    transition: all 0.3s ease; /* 过渡动画 */
+    transition: all 0.3s ease; /* 过渡动画，持续0.3秒 */
     height: 40px; /* 固定高度，与选择框一致 */
     box-sizing: border-box; /* 确保内边距和边框计入总高度 */
     display: flex; /* 弹性布局，使文本居中 */
@@ -97,13 +130,19 @@ body {
     justify-content: center; /* 水平居中 */
 }
 
-/* 导航按钮悬停效果：蓝色背景和白色文字 */
+/**
+ * 导航按钮悬停效果
+ * 鼠标悬停时变为蓝色背景和白色文字
+ */
 .nav-btn:hover {
     background-color: #4a90e2; /* 蓝色背景 */
     color: white; /* 白色文字 */
 }
 
-/* 缩放按钮样式：更紧凑的按钮 */
+/**
+ * 缩放按钮样式
+ * 更紧凑的按钮，用于放大和缩小时间轴
+ */
 .zoom-btn {
     padding: 5px 12px; /* 内边距，与选择框一致 */
     min-width: 40px; /* 最小宽度 */
@@ -116,7 +155,10 @@ body {
     justify-content: center; /* 水平居中 */
 }
 
-/* 缩放级别显示：居中显示 */
+/**
+ * 缩放级别显示样式
+ * 显示当前缩放比例，居中显示
+ */
 .zoom-level {
     font-size: 14px; /* 字体大小 */
     color: #333; /* 深灰色文字 */
@@ -127,132 +169,188 @@ body {
     border-radius: 5px; /* 圆角 */
 }
 
-/* 筛选选择器样式：蓝色边框 */
+/**
+ * 筛选选择器样式
+ * 蓝色边框，固定高度
+ */
 .filter-select {
     padding: 5px 10px; /* 内边距，与搜索容器一致 */
     border: 2px solid #4a90e2; /* 蓝色边框 */
     border-radius: 5px; /* 圆角 */
     font-size: 14px; /* 字体大小 */
     background-color: white; /* 白色背景 */
-    cursor: pointer; /* 鼠标指针 */
+    cursor: pointer; /* 鼠标指针变为手形 */
     height: 40px; /* 固定高度，与搜索容器一致 */
     box-sizing: border-box; /* 确保内边距和边框计入总高度 */
 }
 
-/* 当 select 获得焦点时，隐藏 value 为 all 的选项 */
+/**
+ * 筛选选择器焦点样式
+ * 当select获得焦点时，隐藏value为all的选项
+ */
 .filter-select:focus option[value="all"] {
-    display: none;
+    display: none; /* 隐藏"全部"选项，使下拉菜单只显示具体选项 */
 }
 
-/* 事件类型选项颜色 */
-#categoryFilter option[value="political"] {
-    background-color: #90caf9; /* 政治：深蓝色 */
+/**
+ * 事件类型选项颜色
+ * 为不同类型的事件选项设置不同的背景颜色
+ */
+#categoryFilter option[value="personage"] {
+    background-color: #17507d; /* 人物：海藍 */
     color: white;
 }
 
-#categoryFilter option[value="cultural"] {
-    background-color: #ce93d8; /* 文化：深紫色 */
+#categoryFilter option[value="organize"] {
+    background-color: #00b483; /* 组织：巴黎緑 */
     color: white;
 }
 
-#categoryFilter option[value="technology"] {
-    background-color: #81c784; /* 科技：深绿色 */
+#categoryFilter option[value="diplomacy"] {
+    background-color: #e67a2a; /* 外交：橙色 */
     color: white;
 }
 
 #categoryFilter option[value="military"] {
-    background-color: #ef9a9a; /* 军事：深红色 */
+    background-color: #cc3536; /* 军事：艶紅 */
     color: white;
 }
 
-/* 人物类型选项颜色 */
-#characterCategoryFilter option[value="political"] {
-    background-color: #90caf9; /* 政治家：深蓝色 */
+/**
+ * 人物类型选项颜色
+ * 为不同类型的人物选项设置不同的背景颜色
+ */
+#characterCategoryFilter option[value="energy"] {
+    background-color: #cc3536; /* 能量派：艶紅 */
     color: white;
 }
 
-#characterCategoryFilter option[value="military"] {
-    background-color: #ef9a9a; /* 军事家：深红色 */
+#characterCategoryFilter option[value="projective"] {
+    background-color: #e67a2a; /* 投影派：橙色 */
     color: white;
 }
 
-#characterCategoryFilter option[value="scientist"] {
-    background-color: #81c784; /* 科学家：深绿色 */
+#characterCategoryFilter option[value="intervene"] {
+    background-color: #00b483; /* 干涉派：巴黎緑 */
     color: white;
 }
 
-#characterCategoryFilter option[value="literary"] {
-    background-color: #ffb74d; /* 文学家：深橙色 */
+#characterCategoryFilter option[value="orientate"] {
+    background-color: #17507d; /* 定位派：海藍 */
     color: white;
 }
 
-#characterCategoryFilter option[value="philosopher"] {
-    background-color: #ce93d8; /* 哲学家：深紫色 */
-    color: white;
-}
-
-/* 地区分类选项颜色 */
+/**
+ * 地区分类选项颜色
+ * 为不同地区的选项设置不同的背景颜色
+ */
 #regionFilter option[value="华夏区"] {
-    background-color: #ff9800; /* 华夏区：橙色 */
+    background-color: #cc3536; /* 华夏区：艶紅 */
     color: white;
 }
 
 #regionFilter option[value="亚洲区"] {
-    background-color: #4caf50; /* 亚洲区：绿色 */
+    background-color: #e67a2a; /* 亚洲区：橙色 */
     color: white;
 }
 
 #regionFilter option[value="欧洲区"] {
-    background-color: #2196f3; /* 欧洲区：蓝色 */
+    background-color: #dbce54; /* 欧洲区：草黄 */
     color: white;
 }
 
-/* 时期分类选项颜色 */
+#regionFilter option[value="北美区"] {
+    background-color: #00b483; /* 北美区：巴黎緑 */
+    color: white;
+}
+
+#regionFilter option[value="拉美区"] {
+    background-color: #17507d; /* 拉美区：海藍 */
+    color: white;
+}
+
+#regionFilter option[value="非洲区"] {
+    background-color: #695776; /* 非洲区：丁香紫 */
+    color: white;
+}
+
+/**
+ * 时期分类选项颜色
+ * 为不同时期的选项设置不同的背景颜色
+ */
+#periodFilter option[value="远古"] {
+    background-color: #cc3536; /* 远古：艶紅 */
+    color: white;
+}
+
+#periodFilter option[value="上古"] {
+    background-color: #e67a2a; /* 上古：橙色 */
+    color: white;
+}
+
 #periodFilter option[value="中古"] {
-    background-color: #9c27b0; /* 中古：紫色 */
+    background-color: #dbce54; /* 中古：草黄 */
     color: white;
 }
 
 #periodFilter option[value="近代"] {
-    background-color: #f44336; /* 近代：红色 */
+    background-color: #00b483; /* 近代：巴黎緑 */
     color: white;
 }
 
 #periodFilter option[value="现代"] {
-    background-color: #00bcd4; /* 现代：青色 */
+    background-color: #17507d; /* 现代：海藍 */
     color: white;
 }
 
-/* 搜索范围选择器样式 */
+#periodFilter option[value="当代"] {
+    background-color: #695776; /* 当代：丁香紫 */
+    color: white;
+}
+
+/**
+ * 搜索范围选择器样式
+ * 设置搜索范围下拉菜单的样式
+ */
 .search-scope {
     margin-right: 5px;
-    border: none !important;
-    background-color: white !important;
-    color: black !important;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 3px;
-    height: 36px;
-    box-sizing: border-box;
-    outline: none !important;
+    border: none !important; /* 无边框 */
+    background-color: white !important; /* 白色背景 */
+    color: black !important; /* 黑色文字 */
+    font-size: 14px; /* 字体大小 */
+    cursor: pointer; /* 鼠标指针变为手形 */
+    padding: 5px 10px; /* 内边距 */
+    border-radius: 3px; /* 圆角 */
+    height: 36px; /* 高度 */
+    box-sizing: border-box; /* 确保内边距和边框计入总高度 */
+    outline: none !important; /* 移除焦点轮廓 */
 }
 
-/* 所有选择器点击时都不显示边框提示 */
+/**
+ * 所有选择器焦点样式
+ * 点击选择器时不显示边框提示
+ */
 .filter-select:focus {
-    outline: none !important;
-    box-shadow: none !important;
+    outline: none !important; /* 移除焦点轮廓 */
+    box-shadow: none !important; /* 移除焦点阴影 */
 }
 
+/**
+ * 搜索范围选项样式
+ * 设置搜索范围下拉菜单中选项的样式
+ */
 .search-scope option {
-    background-color: white;
-    color: black;
-    border: none;
+    background-color: white; /* 白色背景 */
+    color: black; /* 黑色文字 */
+    border: none; /* 无边框 */
 }
 
-/* 搜索容器：始终显示，白色背景 */
+/**
+ * 搜索容器样式
+ * 包含搜索范围选择器、搜索输入框和搜索按钮
+ */
 .search-container {
-    display: flex; /* 始终显示，使用弹性布局 */
+    display: flex; /* 弹性布局 */
     align-items: center; /* 垂直居中 */
     gap: 8px; /* 子元素间距 */
     position: relative; /* 相对定位 */
@@ -262,12 +360,15 @@ body {
     padding: 5px 10px; /* 内边距 */
 }
 
-/* 搜索按钮样式：点击搜索 */
+/**
+ * 搜索按钮样式
+ * 点击搜索按钮触发搜索功能
+ */
 .search-btn {
     background: transparent; /* 透明背景 */
     border: none; /* 无边框 */
     font-size: 18px; /* 字体大小 */
-    cursor: pointer; /* 鼠标指针 */
+    cursor: pointer; /* 鼠标指针变为手形 */
     color: #999; /* 灰色文字 */
     padding: 0; /* 无内边距 */
     width: 30px; /* 宽度 */
@@ -275,27 +376,39 @@ body {
     display: flex; /* 弹性布局 */
     align-items: center; /* 垂直居中 */
     justify-content: center; /* 水平居中 */
-    transition: all 0.3s ease; /* 过渡动画 */
+    transition: all 0.3s ease; /* 过渡动画，持续0.3秒 */
 }
 
-/* 搜索图标SVG样式 */
+/**
+ * 搜索图标SVG样式
+ * 设置搜索图标的大小
+ */
 .search-icon {
     width: 20px; /* 图标宽度 */
     height: 20px; /* 图标高度 */
 }
 
-/* 搜索按钮悬停效果 */
+/**
+ * 搜索按钮悬停效果
+ * 鼠标悬停时改变文字颜色
+ */
 .search-btn:hover {
     color: #4a90e2; /* 蓝色文字 */
 }
 
-/* 搜索按钮悬停时图标样式 */
+/**
+ * 搜索按钮悬停时图标样式
+ * 鼠标悬停时改变图标边框颜色
+ */
 .search-btn:hover .search-icon circle,
 .search-btn:hover .search-icon line {
     stroke: #4a90e2; /* 蓝色边框 */
 }
 
-/* 搜索输入框样式：无边框 */
+/**
+ * 搜索输入框样式
+ * 设置搜索输入框的样式，无边框
+ */
 .search-input {
     padding: 5px 8px; /* 内边距 */
     border: none; /* 无边框 */
@@ -305,43 +418,57 @@ body {
     outline: none; /* 移除焦点轮廓 */
 }
 
-/* 搜索输入框聚焦样式 */
+/**
+ * 搜索输入框聚焦样式
+ * 输入框获得焦点时不显示边框
+ */
 .search-input:focus {
     outline: none; /* 移除焦点轮廓 */
 }
 
-/* 主内容区：占据剩余空间 */
+/**
+ * 主内容区样式
+ * 占据剩余空间，包含时间轴容器
+ */
 .main-content {
-    flex: 1; /* 占据剩余空间 */
-    padding: 80px 0 0 0; /* 顶部留出固定栏高度 */
+    flex: 1; /* 占据剩余空间，使主内容区自动填充页面高度 */
+    padding: 80px 0 0 0; /* 顶部留出固定栏高度，避免内容被固定栏遮挡 */
     overflow: visible; /* 允许内容溢出和滚动 */
-    position: relative; /* 相对定位 */
+    position: relative; /* 相对定位，为子元素提供定位基准 */
 }
 
-/* 搜索结果为空提示：当搜索不到内容时显示 */
+/**
+ * 搜索结果为空提示样式
+ * 当搜索不到内容时显示
+ */
 .no-results {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    background-color: white;
-    padding: 40px 60px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 100;
-    display: none;
+    position: absolute; /* 绝对定位 */
+    top: 50%; /* 垂直居中 */
+    left: 50%; /* 水平居中 */
+    transform: translate(-50%, -50%); /* 调整位置，使其完全居中 */
+    text-align: center; /* 文本居中 */
+    background-color: white; /* 白色背景 */
+    padding: 40px 60px; /* 内边距 */
+    border-radius: 10px; /* 圆角 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 阴影效果 */
+    z-index: 100; /* 层级，确保显示在时间轴上方 */
+    display: none; /* 默认隐藏，搜索不到结果时显示 */
 }
 
-
-/* 搜索结果为空提示文本样式 */
+/**
+ * 搜索结果为空提示文本样式
+ * 设置提示文本的字体大小和颜色
+ */
 .no-results p {
     font-size: 18px; /* 字体大小 */
     color: #666; /* 灰色文字 */
     margin: 0; /* 移除外边距 */
 }
 
-/* 搜索词高亮样式 */
+/**
+ * 搜索词高亮样式
+ * 高亮显示搜索词，使其在文本中更醒目
+ */
 .search-highlight {
     background-color: #ffeb3b; /* 黄色背景 */
     color: #333; /* 深色文字 */
@@ -350,128 +477,209 @@ body {
     font-weight: bold; /* 加粗 */
 }
 
-/* 时间轴容器：覆盖整个网页 */
+/**
+ * 时间轴容器样式
+ * 覆盖整个网页，包含时间轴和事件
+ */
 .timeline-container {
-    width: 100%;
-    min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    position: relative;
-    background: linear-gradient(to right, #e6f2ff, #ffffff);
-    border-radius: 0;
-    box-shadow: none;
-    scrollbar-width: none;
-}
-
-.timeline-container::-webkit-scrollbar {
-    display: none;
-}
-
-/* 时间轴：改为竖向布局 */
-.timeline {
+    width: 100%; /* 宽度100% */
+    min-height: 100vh; /* 最小高度为视口高度 */
+    overflow-x: hidden; /* 隐藏横向滚动条 */
+    overflow-y: auto; /* 允许纵向滚动 */
     position: relative; /* 相对定位 */
+    background: linear-gradient(to right, #e6f2ff, #ffffff); /* 从浅蓝色到白色的渐变背景 */
+    border-radius: 0; /* 无圆角 */
+    box-shadow: none; /* 无阴影 */
+    scrollbar-width: none; /* 隐藏滚动条 */
+}
+
+/**
+ * 时间轴容器滚动条样式
+ * 隐藏WebKit浏览器的滚动条
+ */
+.timeline-container::-webkit-scrollbar {
+    display: none; /* 隐藏滚动条 */
+}
+
+/**
+ * 时间轴样式
+ * 竖向布局，包含年份标记和事件
+ */
+.timeline {
+    position: relative; /* 相对定位，为时间轴线和事件提供定位基准 */
     min-height: 100%; /* 最小高度100% */
-    padding: 50px 0; /* 左右内边距 */
+    padding: 50px 0; /* 上下内边距，留出顶部和底部空间 */
     width: 100%; /* 宽度100% */
 }
 
-/* 时间轴线：改为竖向线条，加粗，淡绿色 */
+/**
+ * 时间轴线样式
+ * 竖向线条，位于时间轴中央
+ */
 .timeline-line {
     position: absolute; /* 绝对定位 */
     left: 50%; /* 水平居中 */
     top: 0; /* 顶部对齐 */
     bottom: 0; /* 底部对齐 */
-    width: 6px; /* 宽度从4px改为6px，加粗 */
-    background: linear-gradient(180deg, #90EE90, #32CD32); /* 改为淡绿色渐变 */
-    transform: translateX(-50%); /* 向左偏移50%以居中 */
-    z-index: 5; /* 层级 */
+    width: 6px; /* 宽度6px，加粗显示 */
+    background: linear-gradient(180deg, #90EE90, #32CD32); /* 淡绿色渐变背景 */
+    transform: translateX(-50%); /* 向左偏移50%以完全居中 */
+    z-index: 5; /* 层级，确保显示在事件下方 */
 }
 
-/* 时间轴年份标注：在时间轴中间显示年份 */
+/**
+ * 时间轴年份标注样式
+ * 在时间轴中间显示年份
+ */
 .timeline-year-marker {
     position: absolute; /* 绝对定位 */
     left: 50%; /* 水平居中 */
-    transform: translateX(-50%); /* 向左偏移50%以居中 */
-    background: linear-gradient(135deg, #90EE90, #32CD32); /* 改为淡绿色渐变背景 */
+    transform: translateX(-50%); /* 向左偏移50%以完全居中 */
+    background: linear-gradient(135deg, #90EE90, #32CD32); /* 淡绿色渐变背景 */
     color: white; /* 白色文字 */
     padding: 8px 15px; /* 内边距 */
     border-radius: 20px; /* 圆角 */
     font-family: 'Consolas', monospace; /* 等宽字体 */
     font-size: 14px; /* 字体大小 */
     font-weight: bold; /* 粗体 */
-    z-index: 15; /* 层级高于事件标记 */
+    z-index: 15; /* 层级高于事件标记，确保显示在事件上方 */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 阴影效果 */
     white-space: nowrap; /* 不换行 */
     pointer-events: none; /* 禁止鼠标事件，让滚动穿透 */
 }
 
-/* 时间轴事件：改为左右排列 */
+/**
+ * 时间轴事件基本样式
+ * 左右排列，绝对定位
+ */
 .timeline-event {
-    position: absolute; /* 绝对定位 */
+    position: absolute; /* 绝对定位，用于精确定位事件位置 */
     width: 400px; /* 宽度400px */
-    cursor: pointer; /* 鼠标指针 */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 过渡动画 */
+    cursor: pointer; /* 鼠标指针变为手形，提示可点击 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 过渡动画，持续0.3秒 */
 }
 
-/* 时间轴事件悬停效果：放大和阴影 */
+/**
+ * 时间轴事件悬停效果
+ * 鼠标悬停时放大和增加阴影
+ */
 .timeline-event:hover {
     transform: scale(1.02); /* 放大1.02倍 */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* 增加阴影效果，增强立体感 */
 }
 
-/* 时间轴事件左侧位置 */
+/**
+ * 左侧事件位置样式
+ * 位于时间轴线左侧
+ */
 .timeline-event.left {
-    right: calc(50% + 30px); /* 距离右侧50%+30px */
+    right: calc(50% + 30px); /* 距离右侧50%+30px，即时间轴线左侧30px */
     text-align: right; /* 文本右对齐 */
     max-width: calc(50% - 50px); /* 最大宽度不超过中线 */
     transform-origin: right center; /* 从右侧边缘开始缩放，避免跨越中线 */
 }
 
-/* 时间轴事件右侧位置 */
+/**
+ * 右侧事件位置样式
+ * 位于时间轴线右侧
+ */
 .timeline-event.right {
-    left: calc(50% + 30px); /* 距离左侧50%+30px */
+    left: calc(50% + 30px); /* 距离左侧50%+30px，即时间轴线右侧30px */
     text-align: left; /* 文本左对齐 */
     max-width: calc(50% - 50px); /* 最大宽度不超过中线 */
     transform-origin: left center; /* 从左侧边缘开始缩放，避免跨越中线 */
 }
 
-/* 事件卡片：白色背景和阴影 */
+/**
+ * 事件卡片样式
+ * 白色背景，阴影效果，透明边框
+ */
 .event-card {
     background: white; /* 白色背景 */
     border-radius: 10px; /* 圆角 */
     padding: 20px; /* 内边距 */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 阴影效果 */
     border: 2px solid transparent; /* 默认透明边框 */
-    transition: all 0.3s ease; /* 过渡动画 */
+    transition: all 0.3s ease; /* 过渡动画，持续0.3秒 */
 }
 
-/* 政治事件：蓝色渐变边框 */
+/**
+ * 政治事件卡片样式
+ * 蓝色渐变边框
+ */
 .event-card.political {
-    border-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) 1;
+    border-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) 1; /* 蓝色到紫色的渐变边框 */
 }
 
-/* 军事事件：红色渐变边框 */
+/**
+ * 军事事件卡片样式
+ * 红色渐变边框
+ */
 .event-card.military {
-    border-image: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) 1;
+    border-image: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) 1; /* 粉色到红色的渐变边框 */
 }
 
-/* 文化事件：绿色渐变边框 */
+/**
+ * 文化事件卡片样式
+ * 绿色渐变边框
+ */
 .event-card.cultural {
-    border-image: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) 1;
+    border-image: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) 1; /* 蓝色到青色的渐变边框 */
 }
 
-/* 科技事件：橙色边框 */
+/**
+ * 科技事件卡片样式
+ * 橙色边框
+ */
 .event-card.technology {
-    border: 2px solid #ff9500;
+    border: 2px solid #ff9500; /* 橙色边框 */
 }
 
-/* 事件卡片悬停效果：增强阴影 */
+/**
+ * 人物事件卡片样式
+ * 海藍边框
+ */
+.event-card.personage {
+    border: 2px solid #17507d; /* 人物：海藍 */
+}
+
+/**
+ * 组织事件卡片样式
+ * 巴黎緑边框
+ */
+.event-card.organize {
+    border: 2px solid #00b483; /* 组织：巴黎緑 */
+}
+
+/**
+ * 外交事件卡片样式
+ * 橙色边框
+ */
+.event-card.diplomacy {
+    border: 2px solid #e67a2a; /* 外交：橙色 */
+}
+
+/**
+ * 军事事件卡片样式
+ * 艶紅边框
+ */
+.event-card.military {
+    border: 2px solid #cc3536; /* 军事：艶紅 */
+}
+
+/**
+ * 事件卡片悬停效果
+ * 鼠标悬停时增强阴影和轻微上移
+ */
 .event-card:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* 增强阴影效果 */
+    transform: translateY(-2px); /* 轻微上移，增强立体感 */
 }
 
-/* 事件年份：等宽字体和蓝色 */
+/**
+ * 事件年份样式
+ * 等宽字体，蓝色文字
+ */
 .event-year {
     font-family: 'Consolas', monospace; /* 等宽字体 */
     font-size: 16px; /* 字体大小 */
@@ -480,7 +688,10 @@ body {
     margin-bottom: 10px; /* 底部外边距 */
 }
 
-/* 事件标题：楷体字体 */
+/**
+ * 事件标题样式
+ * 楷体字体，深灰色文字
+ */
 .event-title {
     font-family: 楷体, 'KaiTi', serif; /* 楷体字体 */
     font-size: 18px; /* 字体大小 */
@@ -488,17 +699,38 @@ body {
     margin-bottom: 10px; /* 底部外边距 */
 }
 
-/* 事件描述：灰色文字 */
+/**
+ * 事件描述样式
+ * 灰色文字，适中行高，根据事件位置对齐
+ */
 .event-description {
     font-size: 13px; /* 字体大小 */
     color: #666; /* 灰色文字 */
-    line-height: 1.6; /* 行高 */
+    line-height: 1.6; /* 行高，提高可读性 */
     margin-bottom: 10px; /* 底部外边距 */
+    text-justify: inter-word; /* 单词间距均匀分布 */
 }
 
-/* 事件分类标签：渐变背景 */
+/**
+ * 左侧事件的描述文本右对齐
+ */
+.timeline-event.left .event-description {
+    text-align: right;
+}
+
+/**
+ * 右侧事件的描述文本左对齐
+ */
+.timeline-event.right .event-description {
+    text-align: left;
+}
+
+/**
+ * 事件分类标签样式
+ * 行内块元素，圆角，白色文字
+ */
 .event-category {
-    display: inline-block; /* 行内块元素 */
+    display: inline-block; /* 行内块元素，允许设置宽高和边距 */
     padding: 4px 12px; /* 内边距 */
     color: white; /* 白色文字 */
     border-radius: 15px; /* 圆角 */
@@ -507,62 +739,102 @@ body {
     margin-bottom: 10px; /* 底部外边距 */
 }
 
-/* 政治分类：蓝色渐变背景 */
+/**
+ * 政治分类标签样式
+ * 蓝色渐变背景
+ */
 .event-card.political .event-category {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 蓝色到紫色的渐变背景 */
 }
 
-/* 军事分类：红色渐变背景 */
+/**
+ * 军事分类标签样式
+ * 红色渐变背景
+ */
 .event-card.military .event-category {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); /* 粉色到红色的渐变背景 */
 }
 
-/* 文化分类：绿色渐变背景 */
+/**
+ * 文化分类标签样式
+ * 绿色渐变背景
+ */
 .event-card.cultural .event-category {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); /* 蓝色到青色的渐变背景 */
 }
 
-/* 科技分类：橙色背景 */
+/**
+ * 科技分类标签样式
+ * 橙色背景
+ */
 .event-card.technology .event-category {
-    background: #ff9500;
+    background: #ff9500; /* 橙色背景 */
 }
 
-/* 事件描述：灰色文字 */
-.event-description {
-    font-size: 13px; /* 字体大小 */
-    color: #666; /* 灰色文字 */
-    line-height: 1.6; /* 行高 */
-    margin-bottom: 10px; /* 底部外边距 */
+.event-card.personage .event-category {
+    background: #17507d; /* 人物：海藍 */
+    color: white;
 }
 
-/* 事件人物：灰色文字 */
+.event-card.organize .event-category {
+    background: #00b483; /* 组织：巴黎緑 */
+    color: white;
+}
+
+.event-card.diplomacy .event-category {
+    background: #e67a2a; /* 外交：橙色 */
+    color: white;
+}
+
+.event-card.military .event-category {
+    background: #cc3536; /* 军事：艶紅 */
+    color: white;
+}
+
+/**
+ * 事件人物样式
+ * 灰色文字
+ */
 .event-characters {
     font-size: 13px; /* 字体大小 */
     color: #666; /* 灰色文字 */
 }
 
-/* 人物链接：蓝色文字和下划线 */
+/**
+ * 人物链接样式
+ * 蓝色文字，下划线
+ */
 .character-link {
     color: #4a90e2; /* 蓝色文字 */
-    cursor: pointer; /* 鼠标指针 */
+    cursor: pointer; /* 鼠标指针变为手形 */
     text-decoration: underline; /* 下划线 */
-    transition: color 0.3s ease; /* 过渡动画 */
+    transition: color 0.3s ease; /* 过渡动画，持续0.3秒 */
 }
 
-/* 人物链接悬停效果：紫色文字 */
+/**
+ * 人物链接悬停效果
+ * 鼠标悬停时变为紫色文字
+ */
 .character-link:hover {
     color: #9013fe; /* 紫色文字 */
 }
 
-/* 事件标签容器：弹性布局 */
+/**
+ * 事件标签容器样式
+ * 弹性布局，允许换行
+ */
 .event-tags {
     display: flex; /* 弹性布局 */
     flex-wrap: wrap; /* 允许换行 */
     gap: 5px; /* 子元素间距 */
     margin-top: 10px; /* 顶部外边距 */
+    justify-content: flex-start; /* 默认左对齐 */
 }
 
-/* 事件标签：浅灰色背景 */
+/**
+ * 事件标签样式
+ * 浅灰色背景，圆角
+ */
 .event-tag {
     padding: 3px 8px; /* 内边距 */
     background-color: #f0f0f0; /* 浅灰色背景 */
@@ -571,32 +843,39 @@ body {
     color: #666; /* 灰色文字 */
 }
 
-
-
-/* 事件标记点：圆形标记 */
+/**
+ * 事件标记点样式
+ * 圆形标记，位于时间轴线上
+ */
 .event-marker {
     position: absolute; /* 绝对定位 */
     width: 20px; /* 宽度20px */
     height: 20px; /* 高度20px */
-    background: linear-gradient(135deg, #4a90e2, #9013fe); /* 渐变背景 */
+    background: linear-gradient(135deg, #4a90e2, #9013fe); /* 蓝色到紫色的渐变背景 */
     border-radius: 50%; /* 圆形 */
     border: 3px solid white; /* 白色边框 */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 阴影效果 */
-    z-index: 10; /* 层级 */
+    z-index: 10; /* 层级，确保显示在时间轴线之上 */
 }
 
-/* 左侧事件标记点位置 */
+/**
+ * 左侧事件标记点位置
+ * 位于事件右侧，时间轴线左侧
+ */
 .timeline-event.left .event-marker {
-    right: -10px; /* 距离右侧-10px */
+    right: -10px; /* 距离右侧-10px，即超出事件右侧10px */
     top: 50%; /* 垂直居中 */
-    transform: translateY(-50%); /* 向上偏移50%以居中 */
+    transform: translateY(-50%); /* 向上偏移50%以完全居中 */
 }
 
-/* 右侧事件标记点位置 */
+/**
+ * 右侧事件标记点位置
+ * 位于事件左侧，时间轴线右侧
+ */
 .timeline-event.right .event-marker {
-    left: -10px; /* 距离左侧-10px */
+    left: -10px; /* 距离左侧-10px，即超出事件左侧10px */
     top: 50%; /* 垂直居中 */
-    transform: translateY(-50%); /* 向上偏移50%以居中 */
+    transform: translateY(-50%); /* 向上偏移50%以完全居中 */
 }
 
 /* 人物档案弹窗：固定定位 */
