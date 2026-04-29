@@ -6,9 +6,11 @@ const historicalCharacters = [
         birth: "公元1452年",
         death: "公元1519年",
         description: "文艺复兴后三杰之一",
-        category: ["projective", "intervene"],
+        category: ["projective", "energy"],
         achievements: [
-            "建立「选民行会」"
+            "建立「选民行会」",
+            "创作《蒙娜丽莎》",
+            "创作《维特鲁威人》"
         ],
         relatedEvents: ["event_001","event_008","event_009","event_010"],
         tags: ["中古", "欧洲区"]
@@ -16,13 +18,13 @@ const historicalCharacters = [
     {
         id: "char_002",
         name: "乔治·华盛顿",
-        title: "自由之翼创始人",
+        title: "美利坚合众国国父",
         birth: "公元1732年",
         death: "公元1799年",
-        description: "美利坚国父、美利坚开国元勋",
+        description: "美利坚合众国国父、美利坚合众国开国元勋",
         category: "energy",
         achievements: [
-            "建立「自由之翼」"
+            "建立「美利坚合众国」"
         ],
         relatedEvents: ["event_002"],
         tags: ["中古", "北美区"]
@@ -30,41 +32,42 @@ const historicalCharacters = [
     {
         id: "char_003",
         name: "西蒙·玻利瓦尔",
-        title: "拉美联盟创始人",
+        title: "南美洲解放者",
         birth: "公元1783年",
         death: "公元1830年",
-        description: "美洲解放者、委内瑞拉国父",
+        description: "南美洲解放者、委内瑞拉国父",
         category: ["energy"],
         achievements: [
-            "建立「拉美联盟」"
+            "建立「大哥伦比亚共和国」"
         ],
         relatedEvents: ["event_003"],
         tags: ["中古", "拉美区"]
     },
     {
         id: "char_004",
-        name: "穆罕默德·艾哈迈德",
-        title: "逊奈之光创始人",
+        name: "穆罕默德·艾哈迈德·马赫迪",
+        title: "苏丹独立之父",
         birth: "公元1848年",
         death: "公元1885年",
         description: "苏丹独立之父",
         category: ["energy"],
         achievements: [
-            "建立「逊奈之光」"
+            "领导苏丹马赫迪起义",
+            "建立「苏丹马赫迪王国」"
         ],
         relatedEvents: ["event_004"],
         tags: ["近代", "非洲区"]
     },
     {
         id: "char_005",
-        name: "凯末尔·穆斯塔法",
-        title: "白色新月创始人",
+        name: "穆斯塔法·凯末尔·阿塔图尔克",
+        title: "土耳其共和国国父",
         birth: "公元1881年",
         death: "公元1938年",
-        description: "土耳其国父",
+        description: "土耳其共和国国父",
         category: ["projective", "intervene"],
         achievements: [
-            "建立「白色新月」"
+            "建立「土耳其共和国」"
         ],
         relatedEvents: ["event_005"],
         tags: ["近代", "亚洲区"]
@@ -78,7 +81,8 @@ const historicalCharacters = [
         description: "华夏开国元勋",
         category: ["energy", "orientate","projective"],
         achievements: [
-            "建立「真理之火」"
+            "建立「真理之火」",
+            "建立「华夏」"
         ],
         relatedEvents: ["event_006"],
         tags: ["近代", "华夏区"]
@@ -120,7 +124,8 @@ const historicalCharacters = [
         description: "战争中的米开朗琪罗",
         category: ["energy","intervene"],
         achievements: [
-            "颁布《拿破仑法典》」"
+            "建立「法兰西第一帝国」",
+            "颁布《拿破仑法典》"
         ],
         relatedEvents: ["event_011"],
         tags:["中古", "欧洲区"]

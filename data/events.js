@@ -14,49 +14,49 @@ const historicalEvents = [
     {
         id: "event_002",
         year: "公元1776年",
-        title: "「自由之翼」成立",
-        description: "乔治·华盛顿建立「自由之翼」",
+        title: "「美利坚合众国」成立",
+        description: "乔治·华盛顿建立「美利坚合众国」",
         category: "organize",
         characters: [
             { id: "char_002", name: "乔治·华盛顿" }
         ],
-        location: "",
+        location: "华盛顿",
         tags: ["中古", "北美区"]
     },
     {
         id: "event_003",
         year: "公元1819年",
-        title: "「拉美联盟」成立",
-        description: "西蒙·玻利瓦尔建立「拉美联盟」",
+        title: "「大哥伦比亚共和国」成立",
+        description: "西蒙·玻利瓦尔建立「大哥伦比亚共和国」",
         category: "organize",
         characters: [
             { id: "char_003", name: "西蒙·玻利瓦尔" }
         ],
-        location: "",
+        location: "波哥大",
         tags: ["中古", "拉美区"]
     },
     {
         id: "event_004",
         year: "公元1885年",
-        title: "「逊奈之光」成立",
-        description: "穆罕默德·艾哈迈德建立「逊奈之光」",
+        title: "「苏丹马赫迪王国」成立",
+        description: "穆罕默德·艾哈迈德·马赫迪建立「苏丹马赫迪王国」",
         category: "organize",
         characters: [
-            { id: "char_004", name: "穆罕默德·艾哈迈德" }
+            { id: "char_004", name: "穆罕默德·艾哈迈德·马赫迪" }
         ],
         location: "",
-        tags: ["近代", "拉美区"]
+        tags: ["近代", "非洲区"]
     },
     {
         id: "event_005",
         year: "公元1919年",
-        title: "「白色新月」成立",
-        description: "凯末尔·穆斯塔法建立「白色新月」",
+        title: "「土耳其共和国」成立",
+        description: "穆斯塔法·凯末尔·阿塔图尔克建立「土耳其共和国」",
         category: "organize",
         characters: [
-            { id: "char_005", name: "凯末尔·穆斯塔法" }
+            { id: "char_005", name: "穆斯塔法·凯末尔·阿塔图尔克" }
         ],
-        location: "",
+        location: "安卡拉",
         tags: ["近代", "亚洲区"]
     },
     {
@@ -68,14 +68,14 @@ const historicalEvents = [
         characters: [
             { id: "char_006", name: "杨子任" }
         ],
-        location: "",
+        location: "上海",
         tags: ["近代", "华夏区"]
     },
     {
         id: "event_007",
         year: "公元1945年",
         title: "选民行会设置六大分会",
-        description: "真理之火、自由之翼、拉美联盟、逊奈之光、白色新月和选民行会合并，选民行会设置华夏区、欧洲区、北美区、拉美区、非洲区、亚洲区六大分会",
+        description: "真理之火和选民行会合并，选民行会设置华夏区、亚洲区、欧洲区、北美区、拉美区、非洲区六大分会",
         category: "organize",
         characters: [
             { id: "char_007", name: "董贤琮" }

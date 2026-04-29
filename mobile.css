@@ -5,9 +5,17 @@
     /* 固定导航栏优化 */
     .fixed-nav-bar {
         padding: 8px 15px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        gap: 10px;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        min-height: auto;
+    }
+
+    /* 标题区域优化 */
+    .header {
+        align-items: center;
+        margin-bottom: 8px;
     }
 
     /* 标题样式优化 */
@@ -21,18 +29,30 @@
         white-space: nowrap;
     }
 
+    /* 导航控制区域优化 */
+    .nav-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+    }
+
     /* 导航按钮优化 */
     .nav-btn {
         padding: 6px 12px;
         font-size: 12px;
         min-width: auto;
         white-space: nowrap;
+        flex: 1;
+        min-width: 80px;
     }
 
     .zoom-btn {
         padding: 6px 10px;
         min-width: 35px;
         font-size: 14px;
+        flex: none;
     }
 
     /* 缩放级别显示 */
@@ -40,13 +60,17 @@
         font-size: 12px;
         min-width: 50px;
         padding: 6px 8px;
+        flex: none;
     }
 
     /* 搜索和筛选区域优化 */
     .search-container {
         flex: 1;
         min-width: 150px;
-        max-width: 200px;
+        max-width: 100%;
+        order: -1;
+        width: 100%;
+        margin-bottom: 8px;
     }
 
     .search-input {
@@ -55,9 +79,20 @@
         font-size: 14px;
     }
 
+    /* 筛选器容器 */
+    .filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        width: 100%;
+    }
+
     .filter-select {
         padding: 8px 12px;
         font-size: 13px;
+        flex: 1;
+        min-width: 120px;
     }
 
     /* 时间轴容器优化 */
@@ -506,29 +541,113 @@
 
 /* 触摸设备优化 */
 @media (hover: none) and (pointer: coarse) {
+    /* 触摸友好的按钮大小 */
     .nav-btn,
     .action-btn,
-    .form-btn {
+    .form-btn,
+    .search-btn,
+    .zoom-btn {
         min-height: 44px;
+        min-width: 44px;
+        padding: 10px 16px;
     }
 
+    /* 触摸友好的输入元素 */
+    .search-input,
+    .filter-select,
+    .form-group input {
+        min-height: 44px;
+        padding: 12px;
+    }
+
+    /* 触摸友好的事件卡片 */
     .timeline-event {
         min-height: 80px;
+        padding: 16px;
+    }
+
+    /* 触摸友好的分类标签 */
+    .event-category {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    /* 触摸友好的标签 */
+    .event-tag {
+        padding: 4px 12px;
+        font-size: 12px;
+    }
+
+    /* 禁用悬停效果 */
+    .timeline-event:hover {
+        transform: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .event-card:hover {
+        transform: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 }
 
 /* 横屏优化 */
 @media (max-width: 768px) and (orientation: landscape) {
+    /* 导航栏优化 */
     .fixed-nav-bar {
         padding: 5px 10px;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .header {
+        margin-bottom: 0;
+        margin-right: 20px;
     }
 
     .title {
         font-size: 16px;
     }
 
+    .nav-controls {
+        flex: 1;
+        justify-content: flex-end;
+    }
+
+    /* 搜索容器优化 */
+    .search-container {
+        order: 0;
+        max-width: 200px;
+        width: auto;
+        margin-bottom: 0;
+    }
+
+    /* 筛选器容器优化 */
+    .filter-container {
+        flex: 1;
+        justify-content: flex-end;
+    }
+
+    /* 时间轴优化 */
+    .timeline-container {
+        padding: 15px;
+    }
+
     .timeline-event {
-        margin-left: 30px;
+        margin-left: 40px;
+        width: calc(100% - 60px);
+    }
+
+    /* 事件卡片优化 */
+    .event-card {
+        padding: 12px;
+    }
+
+    .event-title {
+        font-size: 15px;
+    }
+
+    .event-description {
+        font-size: 13px;
     }
 }
 
