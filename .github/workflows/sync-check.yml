@@ -43,9 +43,9 @@ jobs:
       - name: Verify key features in index.html
         run: |
           echo "Verifying key features in index.html..."
-          if grep -q "地区分类筛选器" "index.html" && \
-             grep -q "时期分类筛选器" "index.html" && \
-             grep -q "搜索范围选择器" "index.html"; then
+          if grep -q 'id="regionFilter"' "index.html" && \
+             grep -q 'id="periodFilter"' "index.html" && \
+             grep -q 'id="searchScope"' "index.html"; then
             echo "✅ index.html contains all key features"
           else
             echo "❌ index.html missing some key features"
