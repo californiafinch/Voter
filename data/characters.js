@@ -12,7 +12,7 @@ const historicalCharacters = [
             "创作《蒙娜丽莎》",
             "创作《维特鲁威人》"
         ],
-        relatedEvents: ["event_001","event_008","event_009","event_010"],
+        relatedEvents: ["event_001","event_009","event_010","event_011"],
         tags: ["中古", "欧洲区"]
     },
     {

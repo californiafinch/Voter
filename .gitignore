@@ -1,8 +1,6 @@
 node_modules/
-.env
-*.log
 .DS_Store
-*.swp
-*.swo
-*~
-api-performance-results.json
+Thumbs.db
+*.log
+.vscode/*
+!.vscode/voter.code-snippets

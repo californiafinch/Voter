@@ -1,0 +1,2265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据管理后台 - 选民时间轴</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: #4a90e2 #f1f1f1;
+        }
+
+        body {
+            background-color: #e6f2ff;
+            font-family: sans-serif;
+            min-height: 100vh;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #4a90e2, #9013fe);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #357abd, #6b0eb8);
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #4a90e2, #9013fe);
+            color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .admin-header h1 {
+            font-family: 楷体, 'KaiTi', serif;
+            font-size: 24px;
+            font-weight: normal;
+            margin-bottom: 15px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: #4a90e2;
+            font-weight: bold;
+        }
+
+        .admin-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .toolbar-left {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4a90e2, #9013fe);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f5576c, #cc3536);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4a90e2;
+            border: 2px solid #4a90e2;
+        }
+
+        .btn-secondary:hover {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .search-box {
+            padding: 10px 15px;
+            border: 2px solid #4a90e2;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 250px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #4a90e2, #9013fe);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: normal;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tr:hover {
+            background-color: #f8f9ff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .category-political {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .category-military {
+            background: #cc3536;
+        }
+
+        .category-diplomacy {
+            background: #e67a2a;
+        }
+
+        .category-organize {
+            background: #00b483;
+        }
+
+        .category-personage {
+            background: #17507d;
+        }
+
+        .category-energy {
+            background: #cc3536;
+        }
+
+        .category-projective {
+            background: #e67a2a;
+        }
+
+        .category-intervene {
+            background: #00b483;
+        }
+
+        .category-orientate {
+            background: #17507d;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #e8f0fe;
+            color: #1a73e8;
+            border-radius: 10px;
+            font-size: 11px;
+            margin: 2px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #4a90e2, #9013fe);
+            color: white;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-family: 楷体, 'KaiTi', serif;
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-footer {
+            padding: 15px 25px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #4a90e2;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        .year-input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .year-input-group select {
+            width: 100px;
+            flex-shrink: 0;
+        }
+
+        .year-input-group input {
+            flex: 1;
+        }
+
+        .multi-select-container {
+            position: relative;
+        }
+
+        .multi-select-display {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            min-height: 42px;
+            cursor: pointer;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .multi-select-display:focus-within {
+            border-color: #4a90e2;
+        }
+
+        .multi-select-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            background: #e8f0fe;
+            color: #1a73e8;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .multi-select-tag button {
+            background: none;
+            border: none;
+            color: #1a73e8;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .multi-select-input {
+            border: none;
+            outline: none;
+            flex: 1;
+            min-width: 100px;
+            padding: 4px;
+            font-size: 14px;
+        }
+
+        .multi-select-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .multi-select-dropdown.active {
+            display: block;
+        }
+
+        .multi-select-option {
+            padding: 10px 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .multi-select-option:hover {
+            background: #f0f7ff;
+        }
+
+        .multi-select-option.selected {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+
+        .achievements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .achievement-item {
+            display: flex;
+            gap: 8px;
+        }
+
+        .achievement-item input {
+            flex: 1;
+        }
+
+        .add-achievement-btn {
+            width: 100%;
+            padding: 8px;
+            border: 2px dashed #4a90e2;
+            background: transparent;
+            color: #4a90e2;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .add-achievement-btn:hover {
+            background: #e8f0fe;
+        }
+
+        .preview-section {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .preview-section h3 {
+            color: #4a90e2;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .event-card-preview {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+        }
+
+        .event-card-preview.political {
+            border-left: 4px solid #667eea;
+        }
+
+        .event-card-preview.military {
+            border-left: 4px solid #cc3536;
+        }
+
+        .event-card-preview.diplomacy {
+            border-left: 4px solid #e67a2a;
+        }
+
+        .event-card-preview.organize {
+            border-left: 4px solid #00b483;
+        }
+
+        .event-card-preview.personage {
+            border-left: 4px solid #17507d;
+        }
+
+        .event-year-preview {
+            font-family: 'Consolas', monospace;
+            font-size: 16px;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        .event-title-preview {
+            font-family: 楷体, 'KaiTi', serif;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .event-description-preview {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .event-category-preview {
+            display: inline-block;
+            padding: 4px 12px;
+            color: white;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .event-tags-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .event-tag-preview {
+            padding: 3px 8px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .event-characters-preview {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            min-width: 280px;
+            padding: 14px 18px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.success {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .toast.error {
+            border-left: 4px solid #f44336;
+        }
+
+        .toast.warning {
+            border-left: 4px solid #ff9800;
+        }
+
+        .toast.info {
+            border-left: 4px solid #2196f3;
+        }
+
+        .toast-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            color: #4CAF50;
+        }
+
+        .toast.error .toast-icon {
+            color: #f44336;
+        }
+
+        .toast.warning .toast-icon {
+            color: #ff9800;
+        }
+
+        .toast.info .toast-icon {
+            color: #2196f3;
+        }
+
+        .toast-message {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .confirm-dialog {
+            max-width: 400px;
+        }
+
+        .confirm-dialog .modal-body {
+            text-align: center;
+            padding: 30px 25px;
+        }
+
+        .confirm-dialog .modal-body p {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .confirm-dialog .modal-body .sub-text {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #4a90e2, #9013fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                padding: 12px 15px;
+            }
+
+            .admin-header h1 {
+                font-size: 20px;
+            }
+
+            .nav-tab {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .admin-content {
+                padding: 15px 10px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .toolbar-left {
+                justify-content: center;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                max-height: 95vh;
+            }
+
+            .modal-header {
+                padding: 15px 20px;
+            }
+
+            .modal-body {
+                padding: 15px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+
+            .btn {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .stats-bar {
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 12px 15px;
+                min-width: 120px;
+            }
+
+            .stat-value {
+                font-size: 22px;
+            }
+
+            .toast-container {
+                top: 70px;
+                right: 10px;
+                left: 10px;
+            }
+
+            .toast {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <h1>数据管理后台</h1>
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="events">事件管理</button>
+            <button class="nav-tab" data-tab="characters">人物管理</button>
+            <button class="nav-tab" data-tab="data">数据导入导出</button>
+        </nav>
+    </header>
+
+    <main class="admin-content">
+        <div class="tab-content active" id="events-tab">
+            <div class="stats-bar">
+                <div class="stat-card">
+                    <div class="stat-value" id="eventTotalCount">0</div>
+                    <div class="stat-label">总事件数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="eventPoliticalCount">0</div>
+                    <div class="stat-label">政治</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="eventMilitaryCount">0</div>
+                    <div class="stat-label">军事</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="eventDiplomacyCount">0</div>
+                    <div class="stat-label">外交</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="eventOrganizeCount">0</div>
+                    <div class="stat-label">组织</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="eventPersonageCount">0</div>
+                    <div class="stat-label">人物</div>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <button class="btn btn-primary" onclick="openEventModal()">+ 新增事件</button>
+                    <select class="search-box" id="eventCategoryFilter" onchange="renderEventTable()">
+                        <option value="all">所有分类</option>
+                        <option value="political">政治</option>
+                        <option value="military">军事</option>
+                        <option value="diplomacy">外交</option>
+                        <option value="organize">组织</option>
+                        <option value="personage">人物</option>
+                    </select>
+                </div>
+                <input type="text" class="search-box" placeholder="搜索事件标题、描述..." id="eventSearch" oninput="renderEventTable()">
+            </div>
+
+            <div class="card">
+                <div class="table-container">
+                    <table id="eventTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>年份</th>
+                                <th>标题</th>
+                                <th>类别</th>
+                                <th>地点</th>
+                                <th>标签</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="characters-tab">
+            <div class="stats-bar">
+                <div class="stat-card">
+                    <div class="stat-value" id="charTotalCount">0</div>
+                    <div class="stat-label">总人物数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="charEnergyCount">0</div>
+                    <div class="stat-label">能量派</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="charProjectiveCount">0</div>
+                    <div class="stat-label">投影派</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="charInterveneCount">0</div>
+                    <div class="stat-label">干涉派</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="charOrientateCount">0</div>
+                    <div class="stat-label">定位派</div>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <button class="btn btn-primary" onclick="openCharacterModal()">+ 新增人物</button>
+                    <select class="search-box" id="charCategoryFilter" onchange="renderCharacterTable()">
+                        <option value="all">所有派别</option>
+                        <option value="energy">能量派</option>
+                        <option value="projective">投影派</option>
+                        <option value="intervene">干涉派</option>
+                        <option value="orientate">定位派</option>
+                    </select>
+                </div>
+                <input type="text" class="search-box" placeholder="搜索人物姓名、称号..." id="charSearch" oninput="renderCharacterTable()">
+            </div>
+
+            <div class="card">
+                <div class="table-container">
+                    <table id="characterTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>姓名</th>
+                                <th>称号</th>
+                                <th>生卒年</th>
+                                <th>派别</th>
+                                <th>标签</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="characterTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="data-tab">
+            <div class="card" style="padding: 30px;">
+                <h2 style="margin-bottom: 20px; color: #333;">数据管理</h2>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                    <div style="background: #f8f9ff; padding: 25px; border-radius: 10px;">
+                        <h3 style="color: #4a90e2; margin-bottom: 15px;">📤 导出数据</h3>
+                        <p style="color: #666; margin-bottom: 20px; font-size: 14px;">将当前数据导出为 JS 文件，可直接替换项目中的 data/events.js 和 data/characters.js</p>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="exportEvents()">导出 events.js</button>
+                            <button class="btn btn-primary" onclick="exportCharacters()">导出 characters.js</button>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9ff; padding: 25px; border-radius: 10px;">
+                        <h3 style="color: #4a90e2; margin-bottom: 15px;">📥 导入数据</h3>
+                        <p style="color: #666; margin-bottom: 20px; font-size: 14px;">从本地文件导入数据，将覆盖当前数据（请先备份）</p>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <label class="btn btn-secondary">
+                                导入 events.js
+                                <input type="file" accept=".js" onchange="importEvents(event)" style="display: none;">
+                            </label>
+                            <label class="btn btn-secondary">
+                                导入 characters.js
+                                <input type="file" accept=".js" onchange="importCharacters(event)" style="display: none;">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #fff8e1; padding: 25px; border-radius: 10px; margin-bottom: 30px;">
+                    <h3 style="color: #f57c00; margin-bottom: 15px;">⚠️ 数据持久化</h3>
+                    <p style="color: #666; margin-bottom: 15px; font-size: 14px;">所有数据会自动保存到浏览器的 localStorage 中，刷新页面不会丢失。</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="resetToDefault()">恢复默认数据</button>
+                        <button class="btn btn-danger" onclick="clearAllData()">清空所有数据</button>
+                    </div>
+                </div>
+
+                <div style="background: #e8f5e9; padding: 25px; border-radius: 10px;">
+                    <h3 style="color: #2e7d32; margin-bottom: 15px;">📊 数据统计</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                        <div>
+                            <div style="font-size: 24px; font-weight: bold; color: #2e7d32;" id="totalEventsStat">0</div>
+                            <div style="font-size: 13px; color: #666;">事件总数</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; font-weight: bold; color: #2e7d32;" id="totalCharsStat">0</div>
+                            <div style="font-size: 13px; color: #666;">人物总数</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; font-weight: bold; color: #2e7d32;" id="totalTagsStat">0</div>
+                            <div style="font-size: 13px; color: #666;">标签总数</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; font-weight: bold; color: #2e7d32;" id="lastSavedTime">-</div>
+                            <div style="font-size: 13px; color: #666;">上次保存</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="eventModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="eventModalTitle">新增事件</h2>
+                <button class="modal-close" onclick="closeEventModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>ID</label>
+                        <input type="text" id="eventId" placeholder="例如：event_001">
+                    </div>
+                    <div class="form-group">
+                        <label>年份</label>
+                        <div class="year-input-group">
+                            <select id="eventEra">
+                                <option value="公元">公元</option>
+                                <option value="公元前">公元前</option>
+                            </select>
+                            <input type="number" id="eventYear" placeholder="年份数字" min="0">
+                            <span style="display: flex; align-items: center; color: #666;">年</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>标题</label>
+                        <input type="text" id="eventTitle" placeholder="事件标题">
+                    </div>
+                    <div class="form-group">
+                        <label>类别</label>
+                        <select id="eventCategory" onchange="updateEventPreview()">
+                            <option value="political">政治</option>
+                            <option value="military">军事</option>
+                            <option value="diplomacy">外交</option>
+                            <option value="organize">组织</option>
+                            <option value="personage">人物</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>地点</label>
+                        <input type="text" id="eventLocation" placeholder="事件发生地点">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>描述</label>
+                        <textarea id="eventDescription" placeholder="事件详细描述" oninput="updateEventPreview()"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>关联人物</label>
+                        <div class="multi-select-container">
+                            <div class="multi-select-display" id="eventCharactersDisplay" onclick="toggleDropdown('eventCharactersDropdown', 'eventCharactersInput')">
+                                <input type="text" class="multi-select-input" id="eventCharactersInput" placeholder="搜索或选择人物..." oninput="filterOptions('eventCharactersDropdown', 'eventCharactersInput')" onclick="event.stopPropagation()">
+                            </div>
+                            <div class="multi-select-dropdown" id="eventCharactersDropdown"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>标签（多选+自定义）</label>
+                        <div class="multi-select-container">
+                            <div class="multi-select-display" id="eventTagsDisplay" onclick="toggleDropdown('eventTagsDropdown', 'eventTagsInput')">
+                                <input type="text" class="multi-select-input" id="eventTagsInput" placeholder="输入标签后按回车添加..." onkeydown="handleTagInput(event, 'event')" oninput="filterOptions('eventTagsDropdown', 'eventTagsInput')" onclick="event.stopPropagation()">
+                            </div>
+                            <div class="multi-select-dropdown" id="eventTagsDropdown"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    <h3>实时预览</h3>
+                    <div class="event-card-preview" id="eventCardPreview">
+                        <div class="event-year-preview" id="previewYear">公元--年</div>
+                        <span class="event-category-preview" id="previewCategory" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">政治</span>
+                        <div class="event-title-preview" id="previewTitle">事件标题</div>
+                        <div class="event-description-preview" id="previewDescription">事件描述将显示在这里...</div>
+                        <div class="event-characters-preview" id="previewCharacters"></div>
+                        <div class="event-tags-preview" id="previewTags"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeEventModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveEvent()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="characterModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="characterModalTitle">新增人物</h2>
+                <button class="modal-close" onclick="closeCharacterModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>ID</label>
+                        <input type="text" id="charId" placeholder="例如：char_001">
+                    </div>
+                    <div class="form-group">
+                        <label>姓名</label>
+                        <input type="text" id="charName" placeholder="人物姓名">
+                    </div>
+                    <div class="form-group">
+                        <label>称号</label>
+                        <input type="text" id="charTitle" placeholder="人物称号">
+                    </div>
+                    <div class="form-group">
+                        <label>出生年</label>
+                        <div class="year-input-group">
+                            <select id="charBirthEra">
+                                <option value="公元">公元</option>
+                                <option value="公元前">公元前</option>
+                            </select>
+                            <input type="number" id="charBirthYear" placeholder="年份" min="0">
+                            <span style="display: flex; align-items: center; color: #666;">年</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>逝世年</label>
+                        <div class="year-input-group">
+                            <select id="charDeathEra">
+                                <option value="公元">公元</option>
+                                <option value="公元前">公元前</option>
+                            </select>
+                            <input type="number" id="charDeathYear" placeholder="年份" min="0">
+                            <span style="display: flex; align-items: center; color: #666;">年</span>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>描述</label>
+                        <textarea id="charDescription" placeholder="人物简介"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>派别（多选）</label>
+                        <div class="multi-select-container">
+                            <div class="multi-select-display" id="charCategoryDisplay" onclick="toggleDropdown('charCategoryDropdown', 'charCategoryInput')">
+                                <input type="text" class="multi-select-input" id="charCategoryInput" placeholder="选择派别..." onclick="event.stopPropagation()">
+                            </div>
+                            <div class="multi-select-dropdown" id="charCategoryDropdown">
+                                <div class="multi-select-option" data-value="energy" onclick="toggleMultiSelectOption(this, 'charCategory')">能量派</div>
+                                <div class="multi-select-option" data-value="projective" onclick="toggleMultiSelectOption(this, 'charCategory')">投影派</div>
+                                <div class="multi-select-option" data-value="intervene" onclick="toggleMultiSelectOption(this, 'charCategory')">干涉派</div>
+                                <div class="multi-select-option" data-value="orientate" onclick="toggleMultiSelectOption(this, 'charCategory')">定位派</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>关联事件（多选）</label>
+                        <div class="multi-select-container">
+                            <div class="multi-select-display" id="charEventsDisplay" onclick="toggleDropdown('charEventsDropdown', 'charEventsInput')">
+                                <input type="text" class="multi-select-input" id="charEventsInput" placeholder="搜索或选择事件..." oninput="filterOptions('charEventsDropdown', 'charEventsInput')" onclick="event.stopPropagation()">
+                            </div>
+                            <div class="multi-select-dropdown" id="charEventsDropdown"></div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>成就（动态增删）</label>
+                        <div class="achievements-list" id="achievementsList"></div>
+                        <button class="add-achievement-btn" onclick="addAchievement()">+ 添加成就</button>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>标签（多选+自定义）</label>
+                        <div class="multi-select-container">
+                            <div class="multi-select-display" id="charTagsDisplay" onclick="toggleDropdown('charTagsDropdown', 'charTagsInput')">
+                                <input type="text" class="multi-select-input" id="charTagsInput" placeholder="输入标签后按回车添加..." onkeydown="handleTagInput(event, 'char')" oninput="filterOptions('charTagsDropdown', 'charTagsInput')" onclick="event.stopPropagation()">
+                            </div>
+                            <div class="multi-select-dropdown" id="charTagsDropdown"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeCharacterModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveCharacter()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal confirm-dialog">
+            <div class="modal-header">
+                <h2>确认操作</h2>
+                <button class="modal-close" onclick="closeConfirmModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">确定要执行此操作吗？</p>
+                <p class="sub-text" id="confirmSubText">此操作不可撤销。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeConfirmModal()">取消</button>
+                <button class="btn btn-danger" id="confirmBtn" onclick="executeConfirm()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="data/events.js"></script>
+    <script src="data/characters.js"></script>
+    <script>
+        let events = [];
+        let characters = [];
+        let editingEventId = null;
+        let editingCharId = null;
+        let confirmCallback = null;
+
+        const CATEGORY_NAMES = {
+            political: '政治',
+            military: '军事',
+            diplomacy: '外交',
+            organize: '组织',
+            personage: '人物',
+            energy: '能量派',
+            projective: '投影派',
+            intervene: '干涉派',
+            orientate: '定位派'
+        };
+
+        const PRESET_TAGS = ['远古', '上古', '中古', '近代', '现代', '当代', '华夏区', '亚洲区', '欧洲区', '北美区', '拉美区', '非洲区'];
+
+        function init() {
+            loadData();
+            setupTabs();
+            setupClickOutside();
+            renderEventTable();
+            renderCharacterTable();
+            updateStats();
+        }
+
+        function loadData() {
+            const savedEvents = localStorage.getItem('voter_events');
+            const savedChars = localStorage.getItem('voter_characters');
+
+            if (savedEvents) {
+                events = JSON.parse(savedEvents);
+            } else if (typeof historicalEvents !== 'undefined') {
+                events = JSON.parse(JSON.stringify(historicalEvents));
+            }
+
+            if (savedChars) {
+                characters = JSON.parse(savedChars);
+            } else if (typeof historicalCharacters !== 'undefined') {
+                characters = JSON.parse(JSON.stringify(historicalCharacters));
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('voter_events', JSON.stringify(events));
+            localStorage.setItem('voter_characters', JSON.stringify(characters));
+            localStorage.setItem('voter_last_saved', new Date().toLocaleString('zh-CN'));
+            updateLastSavedTime();
+        }
+
+        function updateLastSavedTime() {
+            const lastSaved = localStorage.getItem('voter_last_saved');
+            const el = document.getElementById('lastSavedTime');
+            if (el) el.textContent = lastSaved || '-';
+        }
+
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    const tabId = tab.dataset.tab + '-tab';
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    if (tab.dataset.tab === 'data') {
+                        updateDataStats();
+                    }
+                });
+            });
+        }
+
+        function setupClickOutside() {
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.multi-select-container')) {
+                    document.querySelectorAll('.multi-select-dropdown').forEach(d => d.classList.remove('active'));
+                }
+            });
+        }
+
+        function parseYear(yearStr) {
+            if (!yearStr) return { era: '公元', year: 0 };
+            const match = yearStr.match(/^(公元前)?(\d+)年?$/);
+            if (match) {
+                return {
+                    era: match[1] || '公元',
+                    year: parseInt(match[2])
+                };
+            }
+            return { era: '公元', year: 0 };
+        }
+
+        function formatYear(era, year) {
+            return `${era}${year}年`;
+        }
+
+        function renderEventTable() {
+            const tbody = document.getElementById('eventTableBody');
+            const searchTerm = document.getElementById('eventSearch').value.toLowerCase();
+            const categoryFilter = document.getElementById('eventCategoryFilter').value;
+
+            let filtered = events.filter(e => {
+                const matchSearch = e.title.toLowerCase().includes(searchTerm) ||
+                    (e.description && e.description.toLowerCase().includes(searchTerm)) ||
+                    e.id.toLowerCase().includes(searchTerm);
+                const matchCategory = categoryFilter === 'all' || e.category === categoryFilter;
+                return matchSearch && matchCategory;
+            });
+
+            filtered.sort((a, b) => {
+                const yearA = parseYear(a.year);
+                const yearB = parseYear(b.year);
+                const numA = yearA.era === '公元前' ? -yearA.year : yearA.year;
+                const numB = yearB.era === '公元前' ? -yearB.year : yearB.year;
+                return numA - numB;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📋</div>
+                                <div>暂无事件数据</div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(event => `
+                <tr>
+                    <td><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 12px;">${event.id}</code></td>
+                    <td>${event.year || '-'}</td>
+                    <td style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${event.title}</td>
+                    <td><span class="category-badge category-${event.category}">${CATEGORY_NAMES[event.category] || event.category}</span></td>
+                    <td>${event.location || '-'}</td>
+                    <td style="max-width: 200px;">
+                        ${(event.tags || []).slice(0, 3).map(t => `<span class="tag">${t}</span>`).join('')}
+                        ${(event.tags || []).length > 3 ? `<span class="tag">+${event.tags.length - 3}</span>` : ''}
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary btn-sm" onclick="editEvent('${event.id}')">编辑</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteEvent('${event.id}')">删除</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            updateEventStats();
+        }
+
+        function updateEventStats() {
+            document.getElementById('eventTotalCount').textContent = events.length;
+            document.getElementById('eventPoliticalCount').textContent = events.filter(e => e.category === 'political').length;
+            document.getElementById('eventMilitaryCount').textContent = events.filter(e => e.category === 'military').length;
+            document.getElementById('eventDiplomacyCount').textContent = events.filter(e => e.category === 'diplomacy').length;
+            document.getElementById('eventOrganizeCount').textContent = events.filter(e => e.category === 'organize').length;
+            document.getElementById('eventPersonageCount').textContent = events.filter(e => e.category === 'personage').length;
+        }
+
+        function renderCharacterTable() {
+            const tbody = document.getElementById('characterTableBody');
+            const searchTerm = document.getElementById('charSearch').value.toLowerCase();
+            const categoryFilter = document.getElementById('charCategoryFilter').value;
+
+            let filtered = characters.filter(c => {
+                const matchSearch = c.name.toLowerCase().includes(searchTerm) ||
+                    (c.title && c.title.toLowerCase().includes(searchTerm)) ||
+                    c.id.toLowerCase().includes(searchTerm);
+                const cats = Array.isArray(c.category) ? c.category : [c.category];
+                const matchCategory = categoryFilter === 'all' || cats.includes(categoryFilter);
+                return matchSearch && matchCategory;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">👤</div>
+                                <div>暂无人物数据</div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(char => {
+                const cats = Array.isArray(char.category) ? char.category : [char.category];
+                const dates = (char.birth || '?') + ' - ' + (char.death || '?');
+                return `
+                <tr>
+                    <td><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 12px;">${char.id}</code></td>
+                    <td>${char.name}</td>
+                    <td style="max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${char.title || '-'}</td>
+                    <td>${dates}</td>
+                    <td>
+                        ${cats.map(c => `<span class="category-badge category-${c}" style="margin: 2px;">${CATEGORY_NAMES[c] || c}</span>`).join('')}
+                    </td>
+                    <td style="max-width: 200px;">
+                        ${(char.tags || []).slice(0, 3).map(t => `<span class="tag">${t}</span>`).join('')}
+                        ${(char.tags || []).length > 3 ? `<span class="tag">+${char.tags.length - 3}</span>` : ''}
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary btn-sm" onclick="editCharacter('${char.id}')">编辑</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCharacter('${char.id}')">删除</button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            }).join('');
+
+            updateCharStats();
+        }
+
+        function updateCharStats() {
+            document.getElementById('charTotalCount').textContent = characters.length;
+            document.getElementById('charEnergyCount').textContent = characters.filter(c => {
+                const cats = Array.isArray(c.category) ? c.category : [c.category];
+                return cats.includes('energy');
+            }).length;
+            document.getElementById('charProjectiveCount').textContent = characters.filter(c => {
+                const cats = Array.isArray(c.category) ? c.category : [c.category];
+                return cats.includes('projective');
+            }).length;
+            document.getElementById('charInterveneCount').textContent = characters.filter(c => {
+                const cats = Array.isArray(c.category) ? c.category : [c.category];
+                return cats.includes('intervene');
+            }).length;
+            document.getElementById('charOrientateCount').textContent = characters.filter(c => {
+                const cats = Array.isArray(c.category) ? c.category : [c.category];
+                return cats.includes('orientate');
+            }).length;
+        }
+
+        function updateStats() {
+            updateEventStats();
+            updateCharStats();
+            updateLastSavedTime();
+        }
+
+        function updateDataStats() {
+            document.getElementById('totalEventsStat').textContent = events.length;
+            document.getElementById('totalCharsStat').textContent = characters.length;
+            
+            const allTags = new Set();
+            events.forEach(e => (e.tags || []).forEach(t => allTags.add(t)));
+            characters.forEach(c => (c.tags || []).forEach(t => allTags.add(t)));
+            document.getElementById('totalTagsStat').textContent = allTags.size;
+            
+            updateLastSavedTime();
+        }
+
+        function openEventModal() {
+            editingEventId = null;
+            document.getElementById('eventModalTitle').textContent = '新增事件';
+            document.getElementById('eventId').value = 'event_' + String(events.length + 1).padStart(3, '0');
+            document.getElementById('eventEra').value = '公元';
+            document.getElementById('eventYear').value = '';
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDescription').value = '';
+            document.getElementById('eventCategory').value = 'political';
+            document.getElementById('eventLocation').value = '';
+            
+            selectedEventCharacters = [];
+            selectedEventTags = [];
+            renderEventCharactersTags();
+            renderEventTags();
+            populateCharacterOptions();
+            populateEventTagOptions();
+            
+            updateEventPreview();
+            document.getElementById('eventModal').classList.add('active');
+        }
+
+        function editEvent(id) {
+            const event = events.find(e => e.id === id);
+            if (!event) return;
+
+            editingEventId = id;
+            document.getElementById('eventModalTitle').textContent = '编辑事件';
+            
+            const parsed = parseYear(event.year);
+            document.getElementById('eventId').value = event.id;
+            document.getElementById('eventEra').value = parsed.era;
+            document.getElementById('eventYear').value = parsed.year;
+            document.getElementById('eventTitle').value = event.title || '';
+            document.getElementById('eventDescription').value = event.description || '';
+            document.getElementById('eventCategory').value = event.category || 'political';
+            document.getElementById('eventLocation').value = event.location || '';
+            
+            selectedEventCharacters = (event.characters || []).map(c => ({ ...c }));
+            selectedEventTags = [...(event.tags || [])];
+            renderEventCharactersTags();
+            renderEventTags();
+            populateCharacterOptions();
+            populateEventTagOptions();
+            
+            updateEventPreview();
+            document.getElementById('eventModal').classList.add('active');
+        }
+
+        function closeEventModal() {
+            document.getElementById('eventModal').classList.remove('active');
+        }
+
+        let selectedEventCharacters = [];
+        let selectedEventTags = [];
+
+        function renderEventCharactersTags() {
+            const display = document.getElementById('eventCharactersDisplay');
+            const input = document.getElementById('eventCharactersInput');
+            const tags = selectedEventCharacters.map(c => `
+                <span class="multi-select-tag">
+                    ${c.name}
+                    <button onclick="removeEventCharacter('${c.id}', event)">&times;</button>
+                </span>
+            `).join('');
+            display.innerHTML = tags + '<input type="text" class="multi-select-input" id="eventCharactersInput" placeholder="搜索或选择人物..." oninput="filterOptions(\'eventCharactersDropdown\', \'eventCharactersInput\')" onclick="event.stopPropagation()">';
+        }
+
+        function removeEventCharacter(id, event) {
+            event.stopPropagation();
+            selectedEventCharacters = selectedEventCharacters.filter(c => c.id !== id);
+            renderEventCharactersTags();
+            updateEventPreview();
+        }
+
+        function renderEventTags() {
+            const display = document.getElementById('eventTagsDisplay');
+            const tags = selectedEventTags.map(t => `
+                <span class="multi-select-tag">
+                    ${t}
+                    <button onclick="removeEventTag('${t}', event)">&times;</button>
+                </span>
+            `).join('');
+            display.innerHTML = tags + '<input type="text" class="multi-select-input" id="eventTagsInput" placeholder="输入标签后按回车添加..." onkeydown="handleTagInput(event, \'event\')" oninput="filterOptions(\'eventTagsDropdown\', \'eventTagsInput\')" onclick="event.stopPropagation()">';
+        }
+
+        function removeEventTag(tag, event) {
+            event.stopPropagation();
+            selectedEventTags = selectedEventTags.filter(t => t !== tag);
+            renderEventTags();
+            updateEventPreview();
+        }
+
+        function populateCharacterOptions() {
+            const dropdown = document.getElementById('eventCharactersDropdown');
+            dropdown.innerHTML = characters.map(c => `
+                <div class="multi-select-option ${selectedEventCharacters.some(sc => sc.id === c.id) ? 'selected' : ''}" 
+                     data-value="${c.id}" data-name="${c.name}"
+                     onclick="toggleEventCharacter('${c.id}', '${c.name}')">
+                    <span>${c.name}</span>
+                    <span style="font-size: 12px; color: #999;">${c.title || ''}</span>
+                </div>
+            `).join('');
+        }
+
+        function toggleEventCharacter(id, name) {
+            const idx = selectedEventCharacters.findIndex(c => c.id === id);
+            if (idx > -1) {
+                selectedEventCharacters.splice(idx, 1);
+            } else {
+                selectedEventCharacters.push({ id, name });
+            }
+            renderEventCharactersTags();
+            populateCharacterOptions();
+            updateEventPreview();
+        }
+
+        function populateEventTagOptions() {
+            const dropdown = document.getElementById('eventTagsDropdown');
+            dropdown.innerHTML = PRESET_TAGS.map(t => `
+                <div class="multi-select-option ${selectedEventTags.includes(t) ? 'selected' : ''}" 
+                     onclick="toggleEventTag('${t}')">${t}</div>
+            `).join('');
+        }
+
+        function toggleEventTag(tag) {
+            const idx = selectedEventTags.indexOf(tag);
+            if (idx > -1) {
+                selectedEventTags.splice(idx, 1);
+            } else {
+                selectedEventTags.push(tag);
+            }
+            renderEventTags();
+            populateEventTagOptions();
+            updateEventPreview();
+        }
+
+        function updateEventPreview() {
+            const era = document.getElementById('eventEra').value;
+            const year = document.getElementById('eventYear').value;
+            const title = document.getElementById('eventTitle').value || '事件标题';
+            const desc = document.getElementById('eventDescription').value || '事件描述将显示在这里...';
+            const category = document.getElementById('eventCategory').value;
+
+            document.getElementById('previewYear').textContent = year ? formatYear(era, year) : '公元--年';
+            document.getElementById('previewTitle').textContent = title;
+            document.getElementById('previewDescription').textContent = desc;
+            
+            const catBadge = document.getElementById('previewCategory');
+            catBadge.textContent = CATEGORY_NAMES[category] || category;
+            catBadge.className = 'event-category-preview';
+            const card = document.getElementById('eventCardPreview');
+            card.className = 'event-card-preview ' + category;
+            
+            if (selectedEventCharacters.length > 0) {
+                document.getElementById('previewCharacters').innerHTML = 
+                    '👤 ' + selectedEventCharacters.map(c => c.name).join('、');
+            } else {
+                document.getElementById('previewCharacters').textContent = '';
+            }
+
+            document.getElementById('previewTags').innerHTML = selectedEventTags
+                .map(t => `<span class="event-tag-preview">${t}</span>`).join('');
+        }
+
+        function saveEvent() {
+            const id = document.getElementById('eventId').value.trim();
+            const era = document.getElementById('eventEra').value;
+            const year = document.getElementById('eventYear').value;
+            const title = document.getElementById('eventTitle').value.trim();
+            const description = document.getElementById('eventDescription').value.trim();
+            const category = document.getElementById('eventCategory').value;
+            const location = document.getElementById('eventLocation').value.trim();
+
+            if (!id) {
+                showToast('请输入事件ID', 'error');
+                return;
+            }
+            if (!title) {
+                showToast('请输入事件标题', 'error');
+                return;
+            }
+            if (!year) {
+                showToast('请输入年份', 'error');
+                return;
+            }
+
+            const eventData = {
+                id,
+                year: formatYear(era, parseInt(year)),
+                title,
+                description,
+                category,
+                characters: [...selectedEventCharacters],
+                location,
+                tags: [...selectedEventTags]
+            };
+
+            if (editingEventId) {
+                const idx = events.findIndex(e => e.id === editingEventId);
+                if (idx > -1) {
+                    events[idx] = eventData;
+                }
+                showToast('事件更新成功', 'success');
+            } else {
+                if (events.some(e => e.id === id)) {
+                    showToast('该ID已存在', 'error');
+                    return;
+                }
+                events.push(eventData);
+                showToast('事件添加成功', 'success');
+            }
+
+            saveData();
+            renderEventTable();
+            updateStats();
+            closeEventModal();
+        }
+
+        function deleteEvent(id) {
+            const event = events.find(e => e.id === id);
+            if (!event) return;
+
+            showConfirm(
+                `确定要删除事件「${event.title}」吗？`,
+                '删除后将无法恢复，同时会清除人物中关联的此事件。',
+                () => {
+                    events = events.filter(e => e.id !== id);
+                    characters.forEach(c => {
+                        if (c.relatedEvents) {
+                            c.relatedEvents = c.relatedEvents.filter(eid => eid !== id);
+                        }
+                    });
+                    saveData();
+                    renderEventTable();
+                    renderCharacterTable();
+                    updateStats();
+                    showToast('事件删除成功', 'success');
+                }
+            );
+        }
+
+        function openCharacterModal() {
+            editingCharId = null;
+            document.getElementById('characterModalTitle').textContent = '新增人物';
+            document.getElementById('charId').value = 'char_' + String(characters.length + 1).padStart(3, '0');
+            document.getElementById('charName').value = '';
+            document.getElementById('charTitle').value = '';
+            document.getElementById('charBirthEra').value = '公元';
+            document.getElementById('charBirthYear').value = '';
+            document.getElementById('charDeathEra').value = '公元';
+            document.getElementById('charDeathYear').value = '';
+            document.getElementById('charDescription').value = '';
+            
+            selectedCharCategory = [];
+            selectedCharEvents = [];
+            selectedCharTags = [];
+            achievements = [];
+            
+            renderCharCategoryTags();
+            renderCharEventsTags();
+            renderCharTags();
+            renderAchievements();
+            populateEventOptions();
+            populateCharTagOptions();
+            
+            document.getElementById('characterModal').classList.add('active');
+        }
+
+        function editCharacter(id) {
+            const char = characters.find(c => c.id === id);
+            if (!char) return;
+
+            editingCharId = id;
+            document.getElementById('characterModalTitle').textContent = '编辑人物';
+            
+            const birthParsed = parseYear(char.birth);
+            const deathParsed = parseYear(char.death);
+            
+            document.getElementById('charId').value = char.id;
+            document.getElementById('charName').value = char.name || '';
+            document.getElementById('charTitle').value = char.title || '';
+            document.getElementById('charBirthEra').value = birthParsed.era;
+            document.getElementById('charBirthYear').value = birthParsed.year;
+            document.getElementById('charDeathEra').value = deathParsed.era;
+            document.getElementById('charDeathYear').value = deathParsed.year;
+            document.getElementById('charDescription').value = char.description || '';
+            
+            selectedCharCategory = Array.isArray(char.category) ? [...char.category] : (char.category ? [char.category] : []);
+            selectedCharEvents = [...(char.relatedEvents || [])];
+            selectedCharTags = [...(char.tags || [])];
+            achievements = [...(char.achievements || [])];
+            
+            renderCharCategoryTags();
+            renderCharEventsTags();
+            renderCharTags();
+            renderAchievements();
+            populateEventOptions();
+            populateCharTagOptions();
+            
+            document.getElementById('characterModal').classList.add('active');
+        }
+
+        function closeCharacterModal() {
+            document.getElementById('characterModal').classList.remove('active');
+        }
+
+        let selectedCharCategory = [];
+        let selectedCharEvents = [];
+        let selectedCharTags = [];
+        let achievements = [];
+
+        function renderCharCategoryTags() {
+            const display = document.getElementById('charCategoryDisplay');
+            const tags = selectedCharCategory.map(c => `
+                <span class="multi-select-tag">
+                    ${CATEGORY_NAMES[c] || c}
+                    <button onclick="removeCharCategory('${c}', event)">&times;</button>
+                </span>
+            `).join('');
+            display.innerHTML = tags + '<input type="text" class="multi-select-input" id="charCategoryInput" placeholder="选择派别..." onclick="event.stopPropagation()">';
+        }
+
+        function removeCharCategory(cat, event) {
+            event.stopPropagation();
+            selectedCharCategory = selectedCharCategory.filter(c => c !== cat);
+            renderCharCategoryTags();
+            updateCategoryDropdownSelection('charCategoryDropdown', selectedCharCategory);
+        }
+
+        function toggleMultiSelectOption(el, type) {
+            const value = el.dataset.value;
+            if (type === 'charCategory') {
+                const idx = selectedCharCategory.indexOf(value);
+                if (idx > -1) {
+                    selectedCharCategory.splice(idx, 1);
+                } else {
+                    selectedCharCategory.push(value);
+                }
+                renderCharCategoryTags();
+                updateCategoryDropdownSelection('charCategoryDropdown', selectedCharCategory);
+            }
+        }
+
+        function updateCategoryDropdownSelection(dropdownId, selected) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.querySelectorAll('.multi-select-option').forEach(opt => {
+                if (selected.includes(opt.dataset.value)) {
+                    opt.classList.add('selected');
+                } else {
+                    opt.classList.remove('selected');
+                }
+            });
+        }
+
+        function renderCharEventsTags() {
+            const display = document.getElementById('charEventsDisplay');
+            const tags = selectedCharEvents.map(eid => {
+                const ev = events.find(e => e.id === eid);
+                const name = ev ? ev.title : eid;
+                return `
+                <span class="multi-select-tag">
+                    ${name}
+                    <button onclick="removeCharEvent('${eid}', event)">&times;</button>
+                </span>
+            `;
+            }).join('');
+            display.innerHTML = tags + '<input type="text" class="multi-select-input" id="charEventsInput" placeholder="搜索或选择事件..." oninput="filterOptions(\'charEventsDropdown\', \'charEventsInput\')" onclick="event.stopPropagation()">';
+        }
+
+        function removeCharEvent(eid, event) {
+            event.stopPropagation();
+            selectedCharEvents = selectedCharEvents.filter(e => e !== eid);
+            renderCharEventsTags();
+            populateEventOptions();
+        }
+
+        function populateEventOptions() {
+            const dropdown = document.getElementById('charEventsDropdown');
+            dropdown.innerHTML = events.map(e => `
+                <div class="multi-select-option ${selectedCharEvents.includes(e.id) ? 'selected' : ''}" 
+                     onclick="toggleCharEvent('${e.id}')">
+                    <span>${e.title}</span>
+                    <span style="font-size: 12px; color: #999;">${e.year}</span>
+                </div>
+            `).join('');
+        }
+
+        function toggleCharEvent(eid) {
+            const idx = selectedCharEvents.indexOf(eid);
+            if (idx > -1) {
+                selectedCharEvents.splice(idx, 1);
+            } else {
+                selectedCharEvents.push(eid);
+            }
+            renderCharEventsTags();
+            populateEventOptions();
+        }
+
+        function renderCharTags() {
+            const display = document.getElementById('charTagsDisplay');
+            const tags = selectedCharTags.map(t => `
+                <span class="multi-select-tag">
+                    ${t}
+                    <button onclick="removeCharTag('${t}', event)">&times;</button>
+                </span>
+            `).join('');
+            display.innerHTML = tags + '<input type="text" class="multi-select-input" id="charTagsInput" placeholder="输入标签后按回车添加..." onkeydown="handleTagInput(event, \'char\')" oninput="filterOptions(\'charTagsDropdown\', \'charTagsInput\')" onclick="event.stopPropagation()">';
+        }
+
+        function removeCharTag(tag, event) {
+            event.stopPropagation();
+            selectedCharTags = selectedCharTags.filter(t => t !== tag);
+            renderCharTags();
+            populateCharTagOptions();
+        }
+
+        function populateCharTagOptions() {
+            const dropdown = document.getElementById('charTagsDropdown');
+            dropdown.innerHTML = PRESET_TAGS.map(t => `
+                <div class="multi-select-option ${selectedCharTags.includes(t) ? 'selected' : ''}" 
+                     onclick="toggleCharTag('${t}')">${t}</div>
+            `).join('');
+        }
+
+        function toggleCharTag(tag) {
+            const idx = selectedCharTags.indexOf(tag);
+            if (idx > -1) {
+                selectedCharTags.splice(idx, 1);
+            } else {
+                selectedCharTags.push(tag);
+            }
+            renderCharTags();
+            populateCharTagOptions();
+        }
+
+        function handleTagInput(event, type) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const input = event.target;
+                const value = input.value.trim();
+                if (value) {
+                    if (type === 'event') {
+                        if (!selectedEventTags.includes(value)) {
+                            selectedEventTags.push(value);
+                            renderEventTags();
+                            populateEventTagOptions();
+                            updateEventPreview();
+                        }
+                    } else if (type === 'char') {
+                        if (!selectedCharTags.includes(value)) {
+                            selectedCharTags.push(value);
+                            renderCharTags();
+                            populateCharTagOptions();
+                        }
+                    }
+                    input.value = '';
+                }
+            }
+        }
+
+        function toggleDropdown(dropdownId, inputId) {
+            const dropdown = document.getElementById(dropdownId);
+            document.querySelectorAll('.multi-select-dropdown').forEach(d => {
+                if (d.id !== dropdownId) d.classList.remove('active');
+            });
+            dropdown.classList.toggle('active');
+            setTimeout(() => {
+                const input = document.getElementById(inputId);
+                if (input) input.focus();
+            }, 10);
+        }
+
+        function filterOptions(dropdownId, inputId) {
+            const dropdown = document.getElementById(dropdownId);
+            const input = document.getElementById(inputId);
+            const filter = input.value.toLowerCase();
+            
+            dropdown.querySelectorAll('.multi-select-option').forEach(opt => {
+                const text = opt.textContent.toLowerCase();
+                opt.style.display = text.includes(filter) ? 'flex' : 'none';
+            });
+        }
+
+        function addAchievement(value = '') {
+            achievements.push(value);
+            renderAchievements();
+        }
+
+        function removeAchievement(index) {
+            achievements.splice(index, 1);
+            renderAchievements();
+        }
+
+        function updateAchievement(index, value) {
+            achievements[index] = value;
+        }
+
+        function renderAchievements() {
+            const list = document.getElementById('achievementsList');
+            list.innerHTML = achievements.map((a, i) => `
+                <div class="achievement-item">
+                    <input type="text" value="${escapeHtml(a)}" placeholder="成就描述..." oninput="updateAchievement(${i}, this.value)">
+                    <button class="btn btn-danger btn-sm" onclick="removeAchievement(${i})">删除</button>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function saveCharacter() {
+            const id = document.getElementById('charId').value.trim();
+            const name = document.getElementById('charName').value.trim();
+            const title = document.getElementById('charTitle').value.trim();
+            const birthEra = document.getElementById('charBirthEra').value;
+            const birthYear = document.getElementById('charBirthYear').value;
+            const deathEra = document.getElementById('charDeathEra').value;
+            const deathYear = document.getElementById('charDeathYear').value;
+            const description = document.getElementById('charDescription').value.trim();
+
+            if (!id) {
+                showToast('请输入人物ID', 'error');
+                return;
+            }
+            if (!name) {
+                showToast('请输入人物姓名', 'error');
+                return;
+            }
+
+            const charData = {
+                id,
+                name,
+                title,
+                birth: birthYear ? formatYear(birthEra, parseInt(birthYear)) : '',
+                death: deathYear ? formatYear(deathEra, parseInt(deathYear)) : '',
+                description,
+                category: [...selectedCharCategory],
+                achievements: achievements.filter(a => a.trim()),
+                relatedEvents: [...selectedCharEvents],
+                tags: [...selectedCharTags]
+            };
+
+            if (editingCharId) {
+                const idx = characters.findIndex(c => c.id === editingCharId);
+                if (idx > -1) {
+                    characters[idx] = charData;
+                }
+                showToast('人物更新成功', 'success');
+            } else {
+                if (characters.some(c => c.id === id)) {
+                    showToast('该ID已存在', 'error');
+                    return;
+                }
+                characters.push(charData);
+                showToast('人物添加成功', 'success');
+            }
+
+            saveData();
+            renderCharacterTable();
+            updateStats();
+            closeCharacterModal();
+        }
+
+        function deleteCharacter(id) {
+            const char = characters.find(c => c.id === id);
+            if (!char) return;
+
+            showConfirm(
+                `确定要删除人物「${char.name}」吗？`,
+                '删除后将无法恢复，同时会清除事件中关联的此人物。',
+                () => {
+                    characters = characters.filter(c => c.id !== id);
+                    events.forEach(e => {
+                        if (e.characters) {
+                            e.characters = e.characters.filter(ci => ci.id !== id);
+                        }
+                    });
+                    saveData();
+                    renderCharacterTable();
+                    renderEventTable();
+                    updateStats();
+                    showToast('人物删除成功', 'success');
+                }
+            );
+        }
+
+        function showConfirm(message, subText, callback) {
+            document.getElementById('confirmMessage').textContent = message;
+            document.getElementById('confirmSubText').textContent = subText || '';
+            confirmCallback = callback;
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+            confirmCallback = null;
+        }
+
+        function executeConfirm() {
+            if (confirmCallback) {
+                confirmCallback();
+            }
+            closeConfirmModal();
+        }
+
+        function exportEvents() {
+            const content = 'const historicalEvents = ' + JSON.stringify(events, null, 4) + ';';
+            downloadFile('events.js', content, 'application/javascript');
+            showToast('events.js 导出成功', 'success');
+        }
+
+        function exportCharacters() {
+            const content = 'const historicalCharacters = ' + JSON.stringify(characters, null, 4) + ';';
+            downloadFile('characters.js', content, 'application/javascript');
+            showToast('characters.js 导出成功', 'success');
+        }
+
+        function downloadFile(filename, content, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function importEvents(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    let data;
+                    const match = content.match(/const\s+historicalEvents\s*=\s*(\[[\s\S]*\])\s*;?/);
+                    if (match) {
+                        data = JSON.parse(match[1]);
+                    } else {
+                        data = JSON.parse(content);
+                    }
+                    
+                    showConfirm(
+                        `确定要导入 ${data.length} 条事件数据吗？`,
+                        '这将覆盖当前所有事件数据，建议先导出备份。',
+                        () => {
+                            events = data;
+                            saveData();
+                            renderEventTable();
+                            updateStats();
+                            showToast(`成功导入 ${data.length} 条事件`, 'success');
+                        }
+                    );
+                } catch (err) {
+                    showToast('导入失败：文件格式错误', 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function importCharacters(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    let data;
+                    const match = content.match(/const\s+historicalCharacters\s*=\s*(\[[\s\S]*\])\s*;?/);
+                    if (match) {
+                        data = JSON.parse(match[1]);
+                    } else {
+                        data = JSON.parse(content);
+                    }
+                    
+                    showConfirm(
+                        `确定要导入 ${data.length} 条人物数据吗？`,
+                        '这将覆盖当前所有人物数据，建议先导出备份。',
+                        () => {
+                            characters = data;
+                            saveData();
+                            renderCharacterTable();
+                            updateStats();
+                            showToast(`成功导入 ${data.length} 个人物`, 'success');
+                        }
+                    );
+                } catch (err) {
+                    showToast('导入失败：文件格式错误', 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function resetToDefault() {
+            showConfirm(
+                '确定要恢复默认数据吗？',
+                '这将重置为 data/events.js 和 data/characters.js 中的原始数据，当前所有修改将丢失。',
+                () => {
+                    localStorage.removeItem('voter_events');
+                    localStorage.removeItem('voter_characters');
+                    localStorage.removeItem('voter_last_saved');
+                    if (typeof historicalEvents !== 'undefined') {
+                        events = JSON.parse(JSON.stringify(historicalEvents));
+                    }
+                    if (typeof historicalCharacters !== 'undefined') {
+                        characters = JSON.parse(JSON.stringify(historicalCharacters));
+                    }
+                    saveData();
+                    renderEventTable();
+                    renderCharacterTable();
+                    updateStats();
+                    showToast('已恢复默认数据', 'success');
+                }
+            );
+        }
+
+        function clearAllData() {
+            showConfirm(
+                '确定要清空所有数据吗？',
+                '此操作将删除所有事件和人物数据，且不可恢复！',
+                () => {
+                    events = [];
+                    characters = [];
+                    saveData();
+                    renderEventTable();
+                    renderCharacterTable();
+                    updateStats();
+                    showToast('所有数据已清空', 'success');
+                }
+            );
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+            
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || icons.info}</span>
+                <span class="toast-message">${message}</span>
+                <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        init();
+    </script>
+</body>
+</html>

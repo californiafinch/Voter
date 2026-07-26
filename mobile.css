@@ -1,8 +1,4 @@
-/* 移动端样式优化 */
-
-/* 移动端响应式断点 */
 @media (max-width: 768px) {
-    /* 固定导航栏优化 */
     .fixed-nav-bar {
         padding: 8px 15px;
         flex-wrap: wrap;
@@ -12,13 +8,11 @@
         min-height: auto;
     }
 
-    /* 标题区域优化 */
     .header {
         align-items: center;
         margin-bottom: 8px;
     }
 
-    /* 标题样式优化 */
     .title {
         font-size: 18px;
         white-space: nowrap;
@@ -29,7 +23,6 @@
         white-space: nowrap;
     }
 
-    /* 导航控制区域优化 */
     .nav-controls {
         display: flex;
         flex-wrap: wrap;
@@ -38,7 +31,6 @@
         align-items: center;
     }
 
-    /* 导航按钮优化 */
     .nav-btn {
         padding: 6px 12px;
         font-size: 12px;
@@ -55,7 +47,6 @@
         flex: none;
     }
 
-    /* 缩放级别显示 */
     .zoom-level {
         font-size: 12px;
         min-width: 50px;
@@ -63,7 +54,6 @@
         flex: none;
     }
 
-    /* 搜索和筛选区域优化 */
     .search-container {
         flex: 1;
         min-width: 150px;
@@ -79,7 +69,6 @@
         font-size: 14px;
     }
 
-    /* 筛选器容器 */
     .filter-container {
         display: flex;
         flex-wrap: wrap;
@@ -95,18 +84,15 @@
         min-width: 120px;
     }
 
-    /* 时间轴容器优化 */
     .timeline-container {
         padding: 10px;
     }
 
-    /* 时间轴线条优化 */
     .timeline-line {
         width: 4px;
         left: 25px;
     }
 
-    /* 年份标记优化 */
     .timeline-year-marker {
         font-size: 14px;
         padding: 6px 12px;
@@ -114,7 +100,6 @@
         transform: translateX(-50%);
     }
 
-    /* 事件卡片优化 */
     .timeline-event {
         width: calc(100% - 50px);
         margin-left: 50px;
@@ -139,14 +124,12 @@
         transform-origin: left center;
     }
 
-    /* 事件标记点位置 */
     .timeline-event.left .event-marker,
     .timeline-event.right .event-marker {
         left: -12px;
         right: auto;
     }
 
-    /* 事件卡片内容优化 */
     .event-card {
         padding: 15px;
         font-size: 14px;
@@ -168,84 +151,6 @@
         margin-bottom: 8px;
     }
 
-    /* 按钮优化 */
-    .action-btn {
-        padding: 8px 16px;
-        font-size: 13px;
-        width: 100%;
-        min-height: 40px;
-    }
-
-    /* 模态框优化 */
-    .character-modal,
-    .login-modal,
-    .register-modal,
-    .account-settings-modal {
-        padding: 20px;
-    }
-
-    .modal-content {
-        padding: 15px;
-        max-width: 90%;
-        max-height: 80vh;
-        overflow-y: auto;
-    }
-
-    /* 表单优化 */
-    .form-group input {
-        width: 100%;
-        padding: 12px;
-        font-size: 14px;
-        margin-bottom: 12px;
-    }
-
-    .form-group label {
-        font-size: 14px;
-        margin-bottom: 6px;
-    }
-
-    .submit-btn,
-    .register-btn {
-        width: 100%;
-        padding: 12px;
-        font-size: 14px;
-        min-height: 44px;
-    }
-
-    /* 用户菜单优化 */
-    .user-menu {
-        right: 10px;
-        width: 180px;
-        max-width: 90vw;
-    }
-
-    .menu-item {
-        padding: 10px 12px;
-    }
-
-    /* 收藏列表优化 */
-    .favorites-list {
-        padding: 10px 0;
-    }
-
-    .favorite-item {
-        padding: 12px;
-        margin-bottom: 8px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .favorite-content {
-        width: 100%;
-        margin-bottom: 8px;
-    }
-
-    .favorite-actions {
-        width: 100%;
-        justify-content: flex-end;
-    }
-
-    /* 人物档案优化 */
     .character-info {
         padding: 15px;
     }
@@ -263,23 +168,6 @@
         line-height: 1.6;
     }
 
-    /* 头像选择优化 */
-    .avatar-selection {
-        gap: 10px;
-    }
-
-    .avatar-option {
-        flex: 1;
-        min-width: 60px;
-    }
-
-    .avatar-preview {
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
-    }
-
-    /* 无结果提示优化 */
     .no-results {
         padding: 30px 40px;
     }
@@ -287,11 +175,16 @@
     .no-results p {
         font-size: 16px;
     }
+
+    .modal-content {
+        padding: 15px;
+        max-width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
 }
 
-/* 超小屏幕优化 */
 @media (max-width: 480px) {
-    /* 导航栏优化 */
     .fixed-nav-bar {
         padding: 6px 10px;
         gap: 8px;
@@ -323,7 +216,6 @@
         padding: 5px 6px;
     }
 
-    /* 搜索框优化 */
     .search-container {
         min-width: 120px;
         max-width: 150px;
@@ -339,7 +231,6 @@
         font-size: 12px;
     }
 
-    /* 时间轴优化 */
     .timeline-container {
         padding: 8px;
     }
@@ -372,7 +263,6 @@
         left: -10px;
     }
 
-    /* 事件卡片优化 */
     .event-card {
         padding: 12px;
     }
@@ -398,13 +288,6 @@
         padding: 2px 6px;
     }
 
-    /* 按钮优化 */
-    .action-btn {
-        padding: 6px 12px;
-        font-size: 12px;
-    }
-
-    /* 模态框优化 */
     .modal-content {
         padding: 12px;
         max-width: 95%;
@@ -423,51 +306,6 @@
         font-size: 12px;
     }
 
-    /* 表单优化 */
-    .form-group input {
-        padding: 10px;
-        font-size: 13px;
-    }
-
-    .form-group label {
-        font-size: 13px;
-    }
-
-    .submit-btn,
-    .register-btn {
-        padding: 10px;
-        font-size: 13px;
-    }
-
-    /* 头像选择优化 */
-    .avatar-selection {
-        gap: 8px;
-    }
-
-    .avatar-option {
-        min-width: 50px;
-    }
-
-    .avatar-preview {
-        width: 45px;
-        height: 45px;
-        font-size: 22px;
-    }
-
-    /* 收藏列表优化 */
-    .favorite-item {
-        padding: 10px;
-    }
-
-    .character-name {
-        font-size: 14px;
-    }
-
-    .character-dates {
-        font-size: 12px;
-    }
-
-    /* 无结果提示优化 */
     .no-results {
         padding: 20px 30px;
     }
@@ -477,7 +315,6 @@
     }
 }
 
-/* 平板设备优化 */
 @media (min-width: 769px) and (max-width: 1024px) {
     .title {
         font-size: 22px;
@@ -508,7 +345,6 @@
     }
 }
 
-/* 大屏幕优化 */
 @media (min-width: 1400px) {
     .title {
         font-size: 28px;
@@ -539,12 +375,8 @@
     }
 }
 
-/* 触摸设备优化 */
 @media (hover: none) and (pointer: coarse) {
-    /* 触摸友好的按钮大小 */
     .nav-btn,
-    .action-btn,
-    .form-btn,
     .search-btn,
     .zoom-btn {
         min-height: 44px;
@@ -552,33 +384,27 @@
         padding: 10px 16px;
     }
 
-    /* 触摸友好的输入元素 */
     .search-input,
-    .filter-select,
-    .form-group input {
+    .filter-select {
         min-height: 44px;
         padding: 12px;
     }
 
-    /* 触摸友好的事件卡片 */
     .timeline-event {
         min-height: 80px;
         padding: 16px;
     }
 
-    /* 触摸友好的分类标签 */
     .event-category {
         padding: 8px 16px;
         font-size: 14px;
     }
 
-    /* 触摸友好的标签 */
     .event-tag {
         padding: 4px 12px;
         font-size: 12px;
     }
 
-    /* 禁用悬停效果 */
     .timeline-event:hover {
         transform: none;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -590,9 +416,7 @@
     }
 }
 
-/* 横屏优化 */
 @media (max-width: 768px) and (orientation: landscape) {
-    /* 导航栏优化 */
     .fixed-nav-bar {
         padding: 5px 10px;
         flex-direction: row;
@@ -613,7 +437,6 @@
         justify-content: flex-end;
     }
 
-    /* 搜索容器优化 */
     .search-container {
         order: 0;
         max-width: 200px;
@@ -621,13 +444,11 @@
         margin-bottom: 0;
     }
 
-    /* 筛选器容器优化 */
     .filter-container {
         flex: 1;
         justify-content: flex-end;
     }
 
-    /* 时间轴优化 */
     .timeline-container {
         padding: 15px;
     }
@@ -637,7 +458,6 @@
         width: calc(100% - 60px);
     }
 
-    /* 事件卡片优化 */
     .event-card {
         padding: 12px;
     }
@@ -651,7 +471,6 @@
     }
 }
 
-/* 性能优化 */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -660,7 +479,6 @@
     }
 }
 
-/* 暗色模式支持 */
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #1a1a2e;
@@ -681,3 +499,230 @@
         color: #e2e8f0;
     }
 }
+
+@media (max-width: 768px) {
+    .fixed-nav-bar {
+        padding: 8px 12px;
+        gap: 8px;
+        min-height: auto;
+    }
+
+    .header {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .title {
+        font-size: 20px;
+        margin-bottom: 0;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+
+    .nav-controls {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: space-between;
+    }
+
+    .search-container {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .search-input {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .search-scope {
+        display: none;
+    }
+
+    .filter-container {
+        display: none;
+    }
+
+    .mobile-filter-btn {
+        display: flex !important;
+    }
+
+    .zoom-controls {
+        order: -1;
+    }
+
+    .main-content {
+        padding: 120px 0 70px 0;
+    }
+
+    .bottom-nav {
+        display: flex;
+    }
+
+    .era-nav {
+        right: 5px;
+        top: 140px;
+    }
+
+    .era-nav-item {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+
+    .timeline-event {
+        width: calc(100% - 70px);
+        margin-left: 45px;
+        margin-right: 0;
+        padding: 12px;
+    }
+
+    .timeline-event.left,
+    .timeline-event.right {
+        right: auto;
+        left: 45px;
+        text-align: left;
+        max-width: calc(100% - 60px);
+        transform-origin: left center;
+    }
+
+    .timeline-line {
+        width: 4px;
+        left: 25px;
+        transform: none;
+    }
+
+    .timeline-event.left .event-marker,
+    .timeline-event.right .event-marker {
+        left: -10px;
+        right: auto;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .timeline-event.left .event-description,
+    .timeline-event.right .event-description {
+        text-align: left;
+    }
+
+    .event-tags {
+        justify-content: flex-start !important;
+    }
+
+    .characters-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .character-card {
+        padding: 12px;
+    }
+
+    .character-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .character-name {
+        font-size: 15px;
+    }
+
+    .character-title {
+        font-size: 12px;
+    }
+
+    .character-dates {
+        font-size: 11px;
+    }
+
+    .modal-content {
+        margin: 0;
+        margin-top: auto;
+        max-width: 100%;
+        max-height: 85vh;
+        border-radius: 20px 20px 0 0;
+        padding: 20px;
+        animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    .modal-close {
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+    }
+
+    .event-modal-nav {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .event-nav-btn {
+        width: 100%;
+    }
+
+    .filter-tags-bar {
+        padding: 4px 12px;
+    }
+
+    .filter-tag {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+
+    .back-to-top {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        bottom: 80px;
+        right: 15px;
+    }
+
+    .favorites-tabs {
+        padding: 0 12px;
+    }
+
+    .favorites-tab {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .no-results {
+        padding: 30px 20px;
+        margin: 0 20px;
+    }
+
+    .no-results p {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-filter-btn {
+        display: none !important;
+    }
+
+    .bottom-nav {
+        display: none;
+    }
+
+    .main-content {
+        padding-bottom: 0;
+    }
+}
+

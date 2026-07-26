@@ -1,0 +1,62 @@
+{
+    "新增历史事件": {
+        "prefix": "newevent",
+        "body": [
+            "{",
+            "    id: \"event_${1:001}\",",
+            "    year: \"公元${2:2020}年\",",
+            "    title: \"${3:事件标题}\",",
+            "    description: \"${4:事件描述}\",",
+            "    category: \"${5|political,military,diplomacy,organize,personage|}\",",
+            "    characters: [",
+            "        { id: \"char_${6:001}\", name: \"${7:人物名}\" }",
+            "    ],",
+            "    location: \"${8:地点}\",",
+            "    tags: [\"${9:近代}\", \"${10:华夏区}\"]",
+            "},"
+        ],
+        "description": "快速新增一个历史事件数据"
+    },
+    "新增历史人物": {
+        "prefix": "newchar",
+        "body": [
+            "{",
+            "    id: \"char_${1:001}\",",
+            "    name: \"${2:人物姓名}\",",
+            "    title: \"${3:人物称号}\",",
+            "    birth: \"公元${4:1900}年\",",
+            "    death: \"公元${5:1980}年\",",
+            "    description: \"${6:人物简介}\",",
+            "    category: [\"${7|energy,projective,intervene,orientate|}\"],",
+            "    achievements: [",
+            "        \"${8:主要成就1}\",",
+            "        \"${9:主要成就2}\"",
+            "    ],",
+            "    relatedEvents: [\"event_${10:001}\"],",
+            "    tags: [\"${11:近代}\", \"${12:华夏区}\"]",
+            "},"
+        ],
+        "description": "快速新增一个历史人物数据"
+    },
+    "关联人物": {
+        "prefix": "charref",
+        "body": [
+            "{ id: \"char_${1:001}\", name: \"${2:人物名}\" }"
+        ],
+        "description": "事件中关联人物的引用格式"
+    },
+    "成就条目": {
+        "prefix": "ach",
+        "body": [
+            "\"${1:成就内容}\","
+        ],
+        "description": "人物成就列表条目"
+    },
+    "标签数组": {
+        "prefix": "tags",
+        "body": [
+            "tags: [\"${1:时期}\", \"${2:地区}\"]"
+        ],
+        "description": "标准标签格式（时期 + 地区）"
+    }
+}
