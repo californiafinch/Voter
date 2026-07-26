@@ -19,68 +19,65 @@
 
         <div class="toast-container" id="toastContainer"></div>
 
-        <nav class="fixed-nav-bar">
-            <div class="header">
+        <nav class="fixed-nav-bar" id="fixedNavBar">
+            <div class="nav-brand">
                 <h1 class="title">选民行会</h1>
-                <p class="subtitle">理想国</p>
+                <span class="subtitle">理想国</span>
             </div>
-            <div class="nav-controls">
-                <div class="search-container" id="searchContainer">
-                    <select class="filter-select search-scope" id="searchScope">
-                        <option value="all" selected>全部</option>
-                        <option value="events">事件</option>
-                        <option value="characters">人物</option>
-                        <option value="region">地区</option>
-                        <option value="period">时期</option>
-                    </select>
-                    <input type="text" class="search-input" id="searchInput" placeholder="搜索内容...">
-                    <button class="search-btn" id="searchBtn">
-                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="11" cy="11" r="8" fill="white" stroke="#999" stroke-width="2"/>
-                            <line x1="17" y1="17" x2="21" y2="21" stroke="#999" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </button>
-                </div>
 
-                <div class="filter-container">
-                    <button class="nav-btn reset-btn" id="resetBtn">重置</button>
+            <div class="nav-toolbar">
+                <select class="filter-select search-scope" id="searchScope">
+                    <option value="all" selected>全部</option>
+                    <option value="events">事件</option>
+                    <option value="characters">人物</option>
+                    <option value="region">地区</option>
+                    <option value="period">时期</option>
+                </select>
+                <input type="text" class="search-input" id="searchInput" placeholder="搜索...">
+                <button class="search-btn" id="searchBtn">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8" fill="white" stroke="#999" stroke-width="2"/>
+                        <line x1="17" y1="17" x2="21" y2="21" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
 
-                    <select class="filter-select" id="categoryFilter">
-                        <option value="all" selected>事件</option>
-                        <option value="military">军事</option>
-                        <option value="diplomacy">外交</option>
-                        <option value="organize">组织</option>
-                        <option value="personage">人物</option>
-                    </select>
+                <button class="nav-btn reset-btn" id="resetBtn">重置</button>
 
-                    <select class="filter-select" id="characterCategoryFilter">
-                        <option value="all" selected class="default-option">人物</option>
-                        <option value="energy">能量派</option>
-                        <option value="projective">投影派</option>
-                        <option value="intervene">干涉派</option>
-                        <option value="orientate">定位派</option>
-                    </select>
+                <select class="filter-select" id="categoryFilter">
+                    <option value="all" selected>事件</option>
+                    <option value="military">军事</option>
+                    <option value="diplomacy">外交</option>
+                    <option value="organize">组织</option>
+                    <option value="personage">人物</option>
+                </select>
 
-                    <select class="filter-select" id="regionFilter">
-                        <option value="all" selected>地区</option>
-                        <option value="华夏区">华夏区</option>
-                        <option value="亚洲区">亚洲区</option>
-                        <option value="欧洲区">欧洲区</option>
-                        <option value="北美区">北美区</option>
-                        <option value="拉美区">拉美区</option>
-                        <option value="非洲区">非洲区</option>
-                    </select>
+                <select class="filter-select" id="characterCategoryFilter">
+                    <option value="all" selected>人物</option>
+                    <option value="energy">能量派</option>
+                    <option value="projective">投影派</option>
+                    <option value="intervene">干涉派</option>
+                    <option value="orientate">定位派</option>
+                </select>
 
-                    <select class="filter-select" id="periodFilter">
-                        <option value="all" selected>时期</option>
-                        <option value="远古">远古</option>
-                        <option value="上古">上古</option>
-                        <option value="中古">中古</option>
-                        <option value="近代">近代</option>
-                        <option value="现代">现代</option>
-                        <option value="当代">当代</option>
-                    </select>
-                </div>
+                <select class="filter-select" id="regionFilter">
+                    <option value="all" selected>地区</option>
+                    <option value="华夏区">华夏区</option>
+                    <option value="亚洲区">亚洲区</option>
+                    <option value="欧洲区">欧洲区</option>
+                    <option value="北美区">北美区</option>
+                    <option value="拉美区">拉美区</option>
+                    <option value="非洲区">非洲区</option>
+                </select>
+
+                <select class="filter-select" id="periodFilter">
+                    <option value="all" selected>时期</option>
+                    <option value="远古">远古</option>
+                    <option value="上古">上古</option>
+                    <option value="中古">中古</option>
+                    <option value="近代">近代</option>
+                    <option value="现代">现代</option>
+                    <option value="当代">当代</option>
+                </select>
 
                 <div class="zoom-controls">
                     <button class="nav-btn zoom-btn" id="zoomOutBtn">-</button>
@@ -88,11 +85,19 @@
                     <button class="nav-btn zoom-btn" id="zoomInBtn">+</button>
                 </div>
 
-                <button class="nav-btn mobile-filter-btn" id="mobileFilterBtn">☰ 筛选</button>
+                <button class="nav-btn mobile-filter-btn" id="mobileFilterBtn">☰</button>
             </div>
 
             <div class="filter-tags-bar" id="filterTagsBar"></div>
         </nav>
+
+        <button class="nav-expand-btn" id="navExpandBtn" title="展开菜单">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="4" y1="6" x2="20" y2="6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <line x1="4" y1="12" x2="20" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <line x1="4" y1="18" x2="20" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
 
         <main class="main-content">
             <div class="no-results" id="noResults">
@@ -120,15 +125,6 @@
                 <div class="favorites-content" id="favoritesContent"></div>
             </div>
         </main>
-
-        <div class="era-nav" id="eraNav">
-            <div class="era-nav-item" data-era="远古">远古</div>
-            <div class="era-nav-item" data-era="上古">上古</div>
-            <div class="era-nav-item" data-era="中古">中古</div>
-            <div class="era-nav-item" data-era="近代">近代</div>
-            <div class="era-nav-item" data-era="现代">现代</div>
-            <div class="era-nav-item" data-era="当代">当代</div>
-        </div>
 
         <button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
 

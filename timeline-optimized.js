@@ -89,8 +89,9 @@ const TimelineApp = {
             mobileSearchScope: document.getElementById('mobileSearchScope'),
             mobileSearchInput: document.getElementById('mobileSearchInput'),
             filterTagsBar: document.getElementById('filterTagsBar'),
-            eraNav: document.getElementById('eraNav'),
-            bottomNav: document.getElementById('bottomNav')
+            fixedNavBar: document.getElementById('fixedNavBar'),
+            navExpandBtn: document.getElementById('navExpandBtn'),
+            bottomNav: document.querySelector('.bottom-nav')
         };
 
         const missingElements = Object.entries(this.domCache)
@@ -1072,122 +1073,6 @@ const TimelineApp = {
         }
     },
 
-    scrollToEra(era) {
-        if (!era) return;
-
-        let targetYear = null;
-        const eraYearMap = {
-            'pre-qin': '公元前221年',
-            'qin-han': '公元前202年',
-            'three-kingdoms': '220年',
-            'jin-northern-southern': '265年',
-            'sui-tang': '581年',
-            'five-dynasties': '907年',
-            'song': '960年',
-            'yuan': '1271年',
-            'ming': '1368年',
-            'qing': '1644年',
-            'modern': '1912年'
-        };
-
-        targetYear = eraYearMap[era];
-        if (!targetYear) {
-            targetYear = era;
-        }
-
-        const targetPosition = this.yearPositions[targetYear];
-        if (targetPosition !== undefined) {
-            const zoomFactor = this.zoomLevel / 100;
-            const scrollTop = targetPosition * zoomFactor - 100;
-            window.scrollTo({
-                top: Math.max(0, scrollTop),
-                behavior: 'smooth'
-            });
-        } else {
-            const years = Object.keys(this.yearPositions).sort((a, b) => this.parseYear(a) - this.parseYear(b));
-            if (years.length > 0) {
-                const targetParsed = this.parseYear(targetYear);
-                let closestYear = years[0];
-                let minDiff = Math.abs(this.parseYear(years[0]) - targetParsed);
-                years.forEach(year => {
-                    const diff = Math.abs(this.parseYear(year) - targetParsed);
-                    if (diff < minDiff) {
-                        minDiff = diff;
-                        closestYear = year;
-                    }
-                });
-                const position = this.yearPositions[closestYear];
-                const zoomFactor = this.zoomLevel / 100;
-                const scrollTop = position * zoomFactor - 100;
-                window.scrollTo({
-                    top: Math.max(0, scrollTop),
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        this.updateEraNavHighlight(era);
-    },
-
-    updateEraNavHighlight() {
-        if (!this.domCache.eraNav) return;
-
-        const eraItems = this.domCache.eraNav.querySelectorAll('.era-nav-item');
-        if (eraItems.length === 0) return;
-
-        const scrollY = window.scrollY + 200;
-        const zoomFactor = this.zoomLevel / 100;
-        const years = Object.keys(this.yearPositions).sort((a, b) => this.parseYear(a) - this.parseYear(b));
-
-        let currentEra = null;
-        let currentYear = null;
-
-        for (let i = years.length - 1; i >= 0; i--) {
-            const year = years[i];
-            const position = this.yearPositions[year] * zoomFactor;
-            if (position <= scrollY) {
-                currentYear = year;
-                break;
-            }
-        }
-
-        if (!currentYear && years.length > 0) {
-            currentYear = years[0];
-        }
-
-        if (currentYear) {
-            const yearNum = this.parseYear(currentYear);
-            const eraRanges = [
-                { id: 'pre-qin', end: -221 },
-                { id: 'qin-han', start: -221, end: 220 },
-                { id: 'three-kingdoms', start: 220, end: 265 },
-                { id: 'jin-northern-southern', start: 265, end: 581 },
-                { id: 'sui-tang', start: 581, end: 907 },
-                { id: 'five-dynasties', start: 907, end: 960 },
-                { id: 'song', start: 960, end: 1271 },
-                { id: 'yuan', start: 1271, end: 1368 },
-                { id: 'ming', start: 1368, end: 1644 },
-                { id: 'qing', start: 1644, end: 1912 },
-                { id: 'modern', start: 1912 }
-            ];
-
-            for (const era of eraRanges) {
-                if ((era.start === undefined || yearNum >= era.start) &&
-                    (era.end === undefined || yearNum < era.end)) {
-                    currentEra = era.id;
-                    break;
-                }
-            }
-        }
-
-        eraItems.forEach(item => {
-            item.classList.remove('active');
-            if (currentEra && item.dataset.era === currentEra) {
-                item.classList.add('active');
-            }
-        });
-    },
-
     openFilterDrawer() {
         this.syncFiltersToDrawer();
 
@@ -1516,16 +1401,8 @@ const TimelineApp = {
             });
         }
 
-        if (this.domCache.eraNav) {
-            const eraItems = this.domCache.eraNav.querySelectorAll('.era-nav-item');
-            eraItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const era = item.dataset.era;
-                    if (era) {
-                        this.scrollToEra(era);
-                    }
-                });
-            });
+        if (this.domCache.navExpandBtn) {
+            this.domCache.navExpandBtn.addEventListener('click', () => this.expandNavBar());
         }
 
         document.addEventListener('click', (e) => {
@@ -1546,9 +1423,7 @@ const TimelineApp = {
 
         window.addEventListener('scroll', () => {
             this.toggleBackToTop();
-            if (this.currentView === 'timeline') {
-                this.updateEraNavHighlight();
-            }
+            this.handleNavBarScroll();
         });
 
         if (this.domCache.backToTop) {
@@ -1585,11 +1460,31 @@ const TimelineApp = {
         }
     },
 
+    handleNavBarScroll() {
+        if (!this.domCache.fixedNavBar || !this.domCache.navExpandBtn) return;
+
+        const scrollY = window.scrollY;
+        const navBar = this.domCache.fixedNavBar;
+        const expandBtn = this.domCache.navExpandBtn;
+
+        if (scrollY > 120 && !navBar.classList.contains('collapsed')) {
+            navBar.classList.add('collapsed');
+            expandBtn.classList.add('visible');
+        }
+    },
+
+    expandNavBar() {
+        if (!this.domCache.fixedNavBar || !this.domCache.navExpandBtn) return;
+        this.domCache.fixedNavBar.classList.remove('collapsed');
+        this.domCache.navExpandBtn.classList.remove('visible');
+    },
+
     scrollToTop() {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
+        this.expandNavBar();
     },
 
     debouncedSearch() {

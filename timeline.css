@@ -32,156 +32,158 @@ body {
     min-height: 100vh; /* 最小高度为视口高度 */
 }
 
-/**
- * 固定顶部栏样式
- * 固定在页面最顶部，包含标题和控制按钮
- */
+/* 固定顶部导航栏 - 单排紧凑布局 */
 .fixed-nav-bar {
-    position: fixed; /* 固定定位，始终在页面顶部 */
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(135deg, #4a90e2, #9013fe); /* 蓝色到紫色的渐变背景 */
-    color: white; /* 文字颜色为白色 */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 底部阴影，增加层次感 */
-    z-index: 1000; /* 层级设置为1000，确保在其他元素之上 */
-    padding: 10px 20px; /* 内边距 */
-    display: flex; /* 弹性布局 */
-    align-items: flex-start; /* 顶部对齐，允许换行 */
-    justify-content: space-between; /* 两端对齐，标题在左，控制按钮在右 */
-    gap: 20px; /* 子元素间距 */
-    flex-wrap: wrap; /* 允许换行，适应小屏幕 */
-    min-height: 80px; /* 最小高度，确保所有筛选器都能显示 */
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/**
- * 固定顶部栏隐藏状态
- * 当添加hidden类时，隐藏顶部栏
- */
-.fixed-nav-bar.hidden {
-    display: none; /* 隐藏顶部栏 */
+/* 导航栏折叠状态 - 向上滑出视口 */
+.fixed-nav-bar.collapsed {
+    transform: translateY(-100%);
 }
 
-/**
- * 头部样式
- * 标题和副标题居中显示
- */
-.header {
-    display: flex; /* 弹性布局 */
-    flex-direction: column; /* 垂直排列子元素 */
-    align-items: center; /* 水平居中 */
-    text-align: center; /* 文本居中 */
-    padding: 0; /* 移除内边距 */
+/* 品牌区域 */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
 }
 
-/**
- * 控制按钮区域样式
- * 包含所有控制按钮，如筛选器、搜索框和缩放按钮
- */
-.nav-controls {
-    display: flex; /* 弹性布局 */
-    align-items: center; /* 垂直居中 */
-    gap: 10px; /* 子元素间距 */
-    flex-wrap: wrap; /* 允许换行，适应小屏幕 */
-}
-
-/**
- * 标题样式
- * 白色文字，楷体字体
- */
 .title {
-    font-family: 楷体, 'KaiTi', serif; /* 楷体字体 */
-    font-size: 24px; /* 字体大小 */
-    margin-bottom: 5px; /* 底部外边距 */
-    font-weight: normal; /* 正常字重 */
-    text-shadow: none; /* 移除文字阴影 */
-    color: white; /* 白色文字 */
+    font-family: 楷体, 'KaiTi', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
 }
 
-/**
- * 副标题样式
- * 白色文字，等宽字体
- */
 .subtitle {
-    font-family: 'Consolas', monospace; /* 等宽字体 */
-    font-size: 14px; /* 字体大小 */
-    opacity: 0.9; /* 透明度，使文字稍微淡一些 */
-    text-shadow: none; /* 移除文字阴影 */
-    color: white; /* 白色文字 */
+    font-family: 'Consolas', monospace;
+    font-size: 12px;
+    opacity: 0.85;
+    color: white;
+    white-space: nowrap;
 }
 
-/**
- * 导航按钮样式
- * 蓝色边框和悬停效果
- */
+/* 工具栏 - 所有控件单排排列 */
+.nav-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+/* 导航按钮 - 统一高度 */
 .nav-btn {
-    padding: 5px 16px; /* 内边距，与选择框一致 */
-    border: 2px solid #4a90e2; /* 蓝色边框 */
-    background-color: white; /* 白色背景 */
-    color: #4a90e2; /* 蓝色文字 */
-    border-radius: 5px; /* 圆角 */
-    cursor: pointer; /* 鼠标指针变为手形 */
-    font-size: 14px; /* 字体大小 */
-    transition: all 0.3s ease; /* 过渡动画，持续0.3秒 */
-    height: 40px; /* 固定高度，与选择框一致 */
-    box-sizing: border-box; /* 确保内边距和边框计入总高度 */
-    display: flex; /* 弹性布局，使文本居中 */
-    align-items: center; /* 垂直居中 */
-    justify-content: center; /* 水平居中 */
+    padding: 0 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    height: 32px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
 }
 
-/**
- * 导航按钮悬停效果
- * 鼠标悬停时变为蓝色背景和白色文字
- */
 .nav-btn:hover {
-    background-color: #4a90e2; /* 蓝色背景 */
-    color: white; /* 白色文字 */
+    background: rgba(255, 255, 255, 0.35);
 }
 
-/**
- * 缩放按钮样式
- * 更紧凑的按钮，用于放大和缩小时间轴
- */
+/* 缩放按钮 */
 .zoom-btn {
-    padding: 5px 12px; /* 内边距，与选择框一致 */
-    min-width: 40px; /* 最小宽度 */
-    font-size: 18px; /* 字体大小 */
-    font-weight: bold; /* 粗体 */
-    height: 40px; /* 固定高度，与选择框一致 */
-    box-sizing: border-box; /* 确保内边距和边框计入总高度 */
-    display: flex; /* 弹性布局，使文本居中 */
-    align-items: center; /* 垂直居中 */
-    justify-content: center; /* 水平居中 */
+    padding: 0 10px;
+    min-width: 32px;
+    font-size: 16px;
+    font-weight: bold;
+    height: 32px;
 }
 
-/**
- * 缩放级别显示样式
- * 显示当前缩放比例，居中显示
- */
+/* 展开按钮 - 导航栏折叠后显示 */
+.nav-expand-btn {
+    position: fixed;
+    top: 10px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.nav-expand-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.nav-expand-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+/* 缩放级别显示 */
 .zoom-level {
-    font-size: 14px; /* 字体大小 */
-    color: #333; /* 深灰色文字 */
-    min-width: 60px; /* 最小宽度 */
-    text-align: center; /* 文本居中 */
-    padding: 8px 12px; /* 内边距 */
-    background-color: #f0f0f0; /* 浅灰色背景 */
-    border-radius: 5px; /* 圆角 */
+    font-size: 12px;
+    color: white;
+    min-width: 48px;
+    text-align: center;
+    padding: 0 6px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/**
- * 筛选选择器样式
- * 蓝色边框，固定高度
- */
+/* 筛选选择器 - 统一高度 */
 .filter-select {
-    padding: 5px 10px; /* 内边距，与搜索容器一致 */
-    border: 2px solid #4a90e2; /* 蓝色边框 */
-    border-radius: 5px; /* 圆角 */
-    font-size: 14px; /* 字体大小 */
-    background-color: white; /* 白色背景 */
-    cursor: pointer; /* 鼠标指针变为手形 */
-    height: 40px; /* 固定高度，与搜索容器一致 */
-    box-sizing: border-box; /* 确保内边距和边框计入总高度 */
+    padding: 0 8px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    cursor: pointer;
+    height: 32px;
+    box-sizing: border-box;
+    transition: background 0.2s ease;
+}
+
+.filter-select:hover {
+    background: white;
 }
 
 /**
@@ -308,133 +310,98 @@ body {
     color: white;
 }
 
-/**
- * 搜索范围选择器样式
- * 设置搜索范围下拉菜单的样式
- */
+/* 搜索范围选择器 */
 .search-scope {
-    margin-right: 5px;
-    border: none !important; /* 无边框 */
-    background-color: white !important; /* 白色背景 */
-    color: black !important; /* 黑色文字 */
-    font-size: 14px; /* 字体大小 */
-    cursor: pointer; /* 鼠标指针变为手形 */
-    padding: 5px 10px; /* 内边距 */
-    border-radius: 3px; /* 圆角 */
-    height: 36px; /* 高度 */
-    box-sizing: border-box; /* 确保内边距和边框计入总高度 */
-    outline: none !important; /* 移除焦点轮廓 */
+    margin-right: 0;
+    border: none !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #333 !important;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0 6px;
+    border-radius: 6px;
+    height: 32px;
+    box-sizing: border-box;
+    outline: none !important;
 }
 
-/**
- * 所有选择器焦点样式
- * 点击选择器时不显示边框提示
- */
 .filter-select:focus {
-    outline: none !important; /* 移除焦点轮廓 */
-    box-shadow: none !important; /* 移除焦点阴影 */
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) !important;
 }
 
-/**
- * 搜索范围选项样式
- * 设置搜索范围下拉菜单中选项的样式
- */
 .search-scope option {
-    background-color: white; /* 白色背景 */
-    color: black; /* 黑色文字 */
-    border: none; /* 无边框 */
+    background-color: white;
+    color: #333;
+    border: none;
 }
 
-/**
- * 搜索容器样式
- * 包含搜索范围选择器、搜索输入框和搜索按钮
- */
-.search-container {
-    display: flex; /* 弹性布局 */
-    align-items: center; /* 垂直居中 */
-    gap: 8px; /* 子元素间距 */
-    position: relative; /* 相对定位 */
-    background-color: white; /* 白色背景 */
-    border: 2px solid #4a90e2; /* 蓝色边框 */
-    border-radius: 5px; /* 圆角 */
-    padding: 5px 10px; /* 内边距 */
+/* 搜索输入框 */
+.search-input {
+    padding: 0 8px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    width: 110px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    outline: none;
+    box-sizing: border-box;
+    transition: background 0.2s ease;
 }
 
-/**
- * 搜索按钮样式
- * 点击搜索按钮触发搜索功能
- */
+.search-input:focus {
+    background: white;
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+/* 搜索按钮 */
 .search-btn {
-    background: transparent; /* 透明背景 */
-    border: none; /* 无边框 */
-    font-size: 18px; /* 字体大小 */
-    cursor: pointer; /* 鼠标指针变为手形 */
-    color: #999; /* 灰色文字 */
-    padding: 0; /* 无内边距 */
-    width: 30px; /* 宽度 */
-    height: 30px; /* 高度 */
-    display: flex; /* 弹性布局 */
-    align-items: center; /* 垂直居中 */
-    justify-content: center; /* 水平居中 */
-    transition: all 0.3s ease; /* 过渡动画，持续0.3秒 */
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    color: white;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
 }
 
-/**
- * 搜索图标SVG样式
- * 设置搜索图标的大小
- */
-.search-icon {
-    width: 20px; /* 图标宽度 */
-    height: 20px; /* 图标高度 */
-}
-
-/**
- * 搜索按钮悬停效果
- * 鼠标悬停时改变文字颜色
- */
 .search-btn:hover {
-    color: #4a90e2; /* 蓝色文字 */
+    background: rgba(255, 255, 255, 0.35);
 }
 
-/**
- * 搜索按钮悬停时图标样式
- * 鼠标悬停时改变图标边框颜色
- */
+.search-icon {
+    width: 16px;
+    height: 16px;
+}
+
 .search-btn:hover .search-icon circle,
 .search-btn:hover .search-icon line {
-    stroke: #4a90e2; /* 蓝色边框 */
+    stroke: white;
 }
 
-/**
- * 搜索输入框样式
- * 设置搜索输入框的样式，无边框
- */
-.search-input {
-    padding: 5px 8px; /* 内边距 */
-    border: none; /* 无边框 */
-    border-radius: 0; /* 无圆角 */
-    font-size: 14px; /* 字体大小 */
-    width: 120px; /* 宽度 */
-    outline: none; /* 移除焦点轮廓 */
-}
-
-/**
- * 搜索输入框聚焦样式
- * 输入框获得焦点时不显示边框
- */
-.search-input:focus {
-    outline: none; /* 移除焦点轮廓 */
-}
-
-/**
- * 主内容区样式
- * 占据剩余空间，包含时间轴容器
- */
+/* 主内容区 */
 .main-content {
-    flex: 1; /* 占据剩余空间，使主内容区自动填充页面高度 */
-    padding: 80px 0 0 0; /* 顶部留出固定栏高度，避免内容被固定栏遮挡 */
-    overflow: visible; /* 允许内容溢出和滚动 */
-    position: relative; /* 相对定位，为子元素提供定位基准 */
+    flex: 1;
+    padding: 56px 0 0 0;
+    overflow: visible;
+    position: relative;
+}
+
+/* 缩放控件容器 */
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 /**
@@ -1010,72 +977,6 @@ body {
 
 
 /* 响应式设计：移动端适配 */
-@media (max-width: 768px) {
-    /* 标题字体大小调整 */
-    .title {
-        font-size: 24px; /* 字体大小24px */
-    }
-
-    /* 副标题字体大小调整 */
-    .subtitle {
-        font-size: 14px; /* 字体大小14px */
-    }
-
-    /* 导航栏垂直排列 */
-    .nav-bar {
-        flex-direction: column; /* 垂直排列 */
-        align-items: stretch; /* 拉伸对齐 */
-    }
-
-    /* 导航控制区居中 */
-    .nav-controls {
-        justify-content: center; /* 居中对齐 */
-    }
-
-    /* 导航筛选区垂直排列 */
-    .nav-filters {
-        flex-direction: column; /* 垂直排列 */
-        width: 100%; /* 宽度100% */
-    }
-
-    /* 搜索输入框全宽 */
-    .search-input {
-        width: 100%; /* 宽度100% */
-    }
-
-    /* 时间轴事件宽度调整 */
-    .timeline-event {
-        width: 300px; /* 宽度300px */
-    }
-
-    /* 左侧事件改为上方 */
-    .timeline-event.left {
-        right: auto; /* 取消右侧定位 */
-        left: 20px; /* 左侧20px */
-        text-align: left; /* 文本左对齐 */
-    }
-
-    /* 右侧事件改为下方 */
-    .timeline-event.right {
-        left: auto; /* 取消左侧定位 */
-        right: 20px; /* 右侧20px */
-        text-align: left; /* 文本左对齐 */
-    }
-
-    /* 时间轴线改为左侧 */
-    .timeline-line {
-        left: 20px; /* 左侧20px */
-        transform: none; /* 取消偏移 */
-    }
-
-    /* 弹窗内容调整 */
-    .modal-content {
-        margin: 20px; /* 外边距20px */
-        max-height: 70vh; /* 最大高度70vh */
-    }
-}
-
-
 /* 自定义滚动条样式 */
 ::-webkit-scrollbar {
     width: 10px;
@@ -1518,45 +1419,6 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: bold;
-}
-
-/* 年代导航 */
-.era-nav {
-    position: fixed;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 100;
-}
-
-.era-nav-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: white;
-    color: #666;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.era-nav-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.era-nav-btn.active {
-    background: linear-gradient(135deg, #4a90e2, #9013fe);
-    color: white;
 }
 
 /* 移动端筛选抽屉 */

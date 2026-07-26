@@ -1,550 +1,43 @@
+/* 移动端响应式样式 */
+
+/* 平板及以下 */
 @media (max-width: 768px) {
     .fixed-nav-bar {
-        padding: 8px 15px;
-        flex-wrap: wrap;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-        min-height: auto;
+        padding: 6px 10px;
+        gap: 6px;
     }
 
-    .header {
-        align-items: center;
-        margin-bottom: 8px;
+    .nav-brand {
+        flex-shrink: 0;
     }
 
     .title {
-        font-size: 18px;
-        white-space: nowrap;
+        font-size: 16px;
     }
 
     .subtitle {
-        font-size: 12px;
-        white-space: nowrap;
+        display: none;
     }
 
-    .nav-controls {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .nav-btn {
-        padding: 6px 12px;
-        font-size: 12px;
-        min-width: auto;
-        white-space: nowrap;
-        flex: 1;
-        min-width: 80px;
-    }
-
-    .zoom-btn {
-        padding: 6px 10px;
-        min-width: 35px;
-        font-size: 14px;
-        flex: none;
-    }
-
-    .zoom-level {
-        font-size: 12px;
-        min-width: 50px;
-        padding: 6px 8px;
-        flex: none;
-    }
-
-    .search-container {
-        flex: 1;
-        min-width: 150px;
-        max-width: 100%;
-        order: -1;
-        width: 100%;
-        margin-bottom: 8px;
+    .nav-toolbar {
+        gap: 4px;
     }
 
     .search-input {
-        width: 100%;
-        padding: 8px;
-        font-size: 14px;
-    }
-
-    .filter-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .filter-select {
-        padding: 8px 12px;
-        font-size: 13px;
-        flex: 1;
-        min-width: 120px;
-    }
-
-    .timeline-container {
-        padding: 10px;
-    }
-
-    .timeline-line {
-        width: 4px;
-        left: 25px;
-    }
-
-    .timeline-year-marker {
-        font-size: 14px;
-        padding: 6px 12px;
-        left: 25px;
-        transform: translateX(-50%);
-    }
-
-    .timeline-event {
-        width: calc(100% - 50px);
-        margin-left: 50px;
-        margin-right: 0;
-        padding: 12px;
-    }
-
-    .timeline-event.left {
-        margin-left: 50px;
-        margin-right: 0;
-        right: auto;
-        left: 50px;
-        text-align: left;
-        transform-origin: left center;
-    }
-
-    .timeline-event.right {
-        margin-left: 50px;
-        margin-right: 0;
-        left: 50px;
-        text-align: left;
-        transform-origin: left center;
-    }
-
-    .timeline-event.left .event-marker,
-    .timeline-event.right .event-marker {
-        left: -12px;
-        right: auto;
-    }
-
-    .event-card {
-        padding: 15px;
-        font-size: 14px;
-    }
-
-    .event-title {
-        font-size: 16px;
-        margin-bottom: 8px;
-    }
-
-    .event-description {
-        font-size: 13px;
-        line-height: 1.5;
-    }
-
-    .event-category {
+        width: 80px;
         font-size: 12px;
-        padding: 4px 8px;
-        margin-bottom: 8px;
-    }
-
-    .character-info {
-        padding: 15px;
-    }
-
-    .character-info h2 {
-        font-size: 24px;
-    }
-
-    .character-title {
-        font-size: 16px;
-    }
-
-    .character-bio {
-        font-size: 13px;
-        line-height: 1.6;
-    }
-
-    .no-results {
-        padding: 30px 40px;
-    }
-
-    .no-results p {
-        font-size: 16px;
-    }
-
-    .modal-content {
-        padding: 15px;
-        max-width: 90%;
-        max-height: 80vh;
-        overflow-y: auto;
-    }
-}
-
-@media (max-width: 480px) {
-    .fixed-nav-bar {
-        padding: 6px 10px;
-        gap: 8px;
-    }
-
-    .title {
-        font-size: 16px;
-    }
-
-    .subtitle {
-        font-size: 11px;
-    }
-
-    .nav-btn {
-        padding: 5px 8px;
-        font-size: 11px;
-        min-width: auto;
-    }
-
-    .zoom-btn {
-        padding: 5px 8px;
-        min-width: 30px;
-        font-size: 12px;
-    }
-
-    .zoom-level {
-        font-size: 11px;
-        min-width: 45px;
-        padding: 5px 6px;
-    }
-
-    .search-container {
-        min-width: 120px;
-        max-width: 150px;
-    }
-
-    .search-input {
-        font-size: 13px;
-        padding: 6px;
-    }
-
-    .filter-select {
-        padding: 6px 10px;
-        font-size: 12px;
-    }
-
-    .timeline-container {
-        padding: 8px;
-    }
-
-    .timeline-line {
-        width: 3px;
-        left: 20px;
-    }
-
-    .timeline-year-marker {
-        font-size: 12px;
-        padding: 5px 10px;
-        left: 20px;
-    }
-
-    .timeline-event {
-        width: calc(100% - 40px);
-        margin-left: 40px;
-        padding: 10px;
-    }
-
-    .timeline-event.left,
-    .timeline-event.right {
-        margin-left: 40px;
-        left: 40px;
-    }
-
-    .timeline-event.left .event-marker,
-    .timeline-event.right .event-marker {
-        left: -10px;
-    }
-
-    .event-card {
-        padding: 12px;
-    }
-
-    .event-title {
-        font-size: 14px;
-        margin-bottom: 6px;
-    }
-
-    .event-description {
-        font-size: 12px;
-        line-height: 1.4;
-    }
-
-    .event-category {
-        font-size: 11px;
-        padding: 3px 6px;
-        margin-bottom: 6px;
-    }
-
-    .event-tag {
-        font-size: 10px;
-        padding: 2px 6px;
-    }
-
-    .modal-content {
-        padding: 12px;
-        max-width: 95%;
-        margin: 10px;
-    }
-
-    .character-info h2 {
-        font-size: 20px;
-    }
-
-    .character-title {
-        font-size: 14px;
-    }
-
-    .character-bio {
-        font-size: 12px;
-    }
-
-    .no-results {
-        padding: 20px 30px;
-    }
-
-    .no-results p {
-        font-size: 14px;
-    }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-    .title {
-        font-size: 22px;
-    }
-
-    .subtitle {
-        font-size: 13px;
-    }
-
-    .timeline-event {
-        width: 380px;
-    }
-
-    .event-card {
-        padding: 18px;
-    }
-
-    .event-title {
-        font-size: 17px;
-    }
-
-    .event-description {
-        font-size: 14px;
-    }
-
-    .modal-content {
-        max-width: 550px;
-    }
-}
-
-@media (min-width: 1400px) {
-    .title {
-        font-size: 28px;
-    }
-
-    .subtitle {
-        font-size: 16px;
-    }
-
-    .timeline-event {
-        width: 450px;
-    }
-
-    .event-card {
-        padding: 25px;
-    }
-
-    .event-title {
-        font-size: 20px;
-    }
-
-    .event-description {
-        font-size: 15px;
-    }
-
-    .modal-content {
-        max-width: 700px;
-    }
-}
-
-@media (hover: none) and (pointer: coarse) {
-    .nav-btn,
-    .search-btn,
-    .zoom-btn {
-        min-height: 44px;
-        min-width: 44px;
-        padding: 10px 16px;
-    }
-
-    .search-input,
-    .filter-select {
-        min-height: 44px;
-        padding: 12px;
-    }
-
-    .timeline-event {
-        min-height: 80px;
-        padding: 16px;
-    }
-
-    .event-category {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-
-    .event-tag {
-        padding: 4px 12px;
-        font-size: 12px;
-    }
-
-    .timeline-event:hover {
-        transform: none;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .event-card:hover {
-        transform: none;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-}
-
-@media (max-width: 768px) and (orientation: landscape) {
-    .fixed-nav-bar {
-        padding: 5px 10px;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .header {
-        margin-bottom: 0;
-        margin-right: 20px;
-    }
-
-    .title {
-        font-size: 16px;
-    }
-
-    .nav-controls {
-        flex: 1;
-        justify-content: flex-end;
-    }
-
-    .search-container {
-        order: 0;
-        max-width: 200px;
-        width: auto;
-        margin-bottom: 0;
-    }
-
-    .filter-container {
-        flex: 1;
-        justify-content: flex-end;
-    }
-
-    .timeline-container {
-        padding: 15px;
-    }
-
-    .timeline-event {
-        margin-left: 40px;
-        width: calc(100% - 60px);
-    }
-
-    .event-card {
-        padding: 12px;
-    }
-
-    .event-title {
-        font-size: 15px;
-    }
-
-    .event-description {
-        font-size: 13px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #1a1a2e;
-    }
-
-    .fixed-nav-bar {
-        background: linear-gradient(135deg, #2d3748, #1a1a2e);
-    }
-
-    .nav-btn {
-        background-color: #2d3748;
-        color: #e2e8f0;
-        border-color: #4a5568;
-    }
-
-    .event-card {
-        background-color: #2d3748;
-        color: #e2e8f0;
-    }
-}
-
-@media (max-width: 768px) {
-    .fixed-nav-bar {
-        padding: 8px 12px;
-        gap: 8px;
-        min-height: auto;
-    }
-
-    .header {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .title {
-        font-size: 20px;
-        margin-bottom: 0;
-    }
-
-    .subtitle {
-        font-size: 12px;
-    }
-
-    .nav-controls {
-        width: 100%;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: space-between;
-    }
-
-    .search-container {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .search-input {
-        width: 100%;
-        font-size: 14px;
+        height: 30px;
     }
 
     .search-scope {
         display: none;
     }
 
-    .filter-container {
+    #categoryFilter,
+    #characterCategoryFilter,
+    #regionFilter,
+    #periodFilter,
+    #resetBtn {
         display: none;
     }
 
@@ -556,23 +49,39 @@
         order: -1;
     }
 
+    .nav-btn {
+        height: 30px;
+        font-size: 12px;
+        padding: 0 8px;
+    }
+
+    .filter-select {
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .search-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .zoom-btn {
+        height: 30px;
+        min-width: 28px;
+    }
+
+    .zoom-level {
+        height: 30px;
+        font-size: 11px;
+        min-width: 40px;
+    }
+
     .main-content {
-        padding: 120px 0 70px 0;
+        padding: 50px 0 70px 0;
     }
 
     .bottom-nav {
         display: flex;
-    }
-
-    .era-nav {
-        right: 5px;
-        top: 140px;
-    }
-
-    .era-nav-item {
-        width: 32px;
-        height: 32px;
-        font-size: 12px;
     }
 
     .timeline-event {
@@ -653,12 +162,8 @@
     }
 
     @keyframes slideUp {
-        from {
-            transform: translateY(100%);
-        }
-        to {
-            transform: translateY(0);
-        }
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
     }
 
     .modal-close {
@@ -710,8 +215,199 @@
     .no-results p {
         font-size: 15px;
     }
+
+    .nav-expand-btn {
+        width: 34px;
+        height: 34px;
+        top: 8px;
+        right: 10px;
+    }
 }
 
+/* 小手机 */
+@media (max-width: 480px) {
+    .title {
+        font-size: 15px;
+    }
+
+    .search-input {
+        width: 60px;
+    }
+
+    .characters-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .timeline-container {
+        padding: 8px;
+    }
+
+    .timeline-line {
+        width: 3px;
+        left: 20px;
+    }
+
+    .timeline-event {
+        margin-left: 40px;
+        width: calc(100% - 60px);
+    }
+
+    .event-card {
+        padding: 12px;
+    }
+
+    .event-title {
+        font-size: 15px;
+    }
+
+    .event-description {
+        font-size: 13px;
+    }
+}
+
+/* 平板 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .title {
+        font-size: 18px;
+    }
+
+    .subtitle {
+        font-size: 11px;
+    }
+
+    .timeline-event {
+        width: 380px;
+    }
+
+    .event-card {
+        padding: 18px;
+    }
+
+    .event-title {
+        font-size: 17px;
+    }
+
+    .event-description {
+        font-size: 14px;
+    }
+
+    .modal-content {
+        max-width: 550px;
+    }
+}
+
+/* 大屏 */
+@media (min-width: 1400px) {
+    .title {
+        font-size: 22px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    .timeline-event {
+        width: 450px;
+    }
+
+    .event-card {
+        padding: 25px;
+    }
+
+    .event-title {
+        font-size: 20px;
+    }
+
+    .event-description {
+        font-size: 15px;
+    }
+
+    .modal-content {
+        max-width: 700px;
+    }
+}
+
+/* 触摸设备 */
+@media (hover: none) and (pointer: coarse) {
+    .nav-btn,
+    .search-btn,
+    .zoom-btn {
+        min-height: 36px;
+    }
+
+    .timeline-event {
+        min-height: 80px;
+        padding: 16px;
+    }
+
+    .timeline-event:hover {
+        transform: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .event-card:hover {
+        transform: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* 横屏移动端 */
+@media (max-width: 768px) and (orientation: landscape) {
+    .fixed-nav-bar {
+        padding: 4px 10px;
+    }
+
+    .title {
+        font-size: 15px;
+    }
+
+    .timeline-container {
+        padding: 15px;
+    }
+
+    .timeline-event {
+        margin-left: 40px;
+        width: calc(100% - 60px);
+    }
+
+    .event-card {
+        padding: 12px;
+    }
+}
+
+/* 减少动画 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a2e;
+    }
+
+    .fixed-nav-bar {
+        background: linear-gradient(135deg, #2d3748, #1a1a2e);
+    }
+
+    .nav-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+    }
+
+    .event-card {
+        background-color: #2d3748;
+        color: #e2e8f0;
+    }
+}
+
+/* 桌面端隐藏移动端元素 */
 @media (min-width: 769px) {
     .mobile-filter-btn {
         display: none !important;
@@ -725,4 +421,3 @@
         padding-bottom: 0;
     }
 }
-
