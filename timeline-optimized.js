@@ -1467,9 +1467,16 @@ const TimelineApp = {
         const navBar = this.domCache.fixedNavBar;
         const expandBtn = this.domCache.navExpandBtn;
 
-        if (scrollY > 120 && !navBar.classList.contains('collapsed')) {
-            navBar.classList.add('collapsed');
-            expandBtn.classList.add('visible');
+        if (scrollY > 120) {
+            if (!navBar.classList.contains('collapsed')) {
+                navBar.classList.add('collapsed');
+                expandBtn.classList.add('visible');
+            }
+        } else {
+            if (navBar.classList.contains('collapsed')) {
+                navBar.classList.remove('collapsed');
+                expandBtn.classList.remove('visible');
+            }
         }
     },
 

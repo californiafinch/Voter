@@ -80,13 +80,14 @@ body {
     white-space: nowrap;
 }
 
-/* 工具栏 - 所有控件单排排列 */
+/* 工具栏 - 所有控件单排排列，靠右对齐 */
 .nav-toolbar {
     display: flex;
     align-items: center;
     gap: 6px;
     flex-wrap: wrap;
     flex: 1;
+    justify-content: flex-end;
 }
 
 /* 导航按钮 - 统一高度 */
